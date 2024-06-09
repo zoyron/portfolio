@@ -51,6 +51,8 @@ MIT License.
 
 You can create your own homepage for free without notifying me by forking this project. 
 
+It would be a great help to me if you fork and/or star this repo before making it your portfolio. I also push a lot of updates.
+
 Check out [LICENSE](./LICENSE) for more detail.
 
 ---
