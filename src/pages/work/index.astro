@@ -28,7 +28,6 @@ function formatWorkDate(input: Date | string) {
 }
 ---
 <PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
-<!--
   <TopLayout>
     <div class="animate page-heading">
       {WORK.TITLE}
@@ -56,52 +55,5 @@ function formatWorkDate(input: Date | string) {
       }
     </ul>
   </BottomLayout>
--->
-<div class="updating-soon-container">
-  <div class="updating-soon-content">
-    <h1>Updating Soon</h1>
-    <p>Stay tuned!</p>
-  </div>
-</div>
-
-<style>
-  .updating-soon-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    color: #343a40;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-
-  .updating-soon-content {
-    text-align: center;
-    padding: 2rem 3rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    animation: fadeIn 2s ease-in-out;
-  }
-
-  .updating-soon-content h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-
-  .updating-soon-content p {
-    font-size: 1.25rem;
-    margin-bottom: 0;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>
 </PageLayout>
 
