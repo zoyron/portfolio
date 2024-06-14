@@ -1,6 +1,6 @@
 ---
 title: "Mikasa - cruel or compassionate?"
-summary: "this blog is inside the folder" 
+summary: "What I actually think about Mikasa" 
 date: "Jun 9 2024"
 draft: false
 tags:
