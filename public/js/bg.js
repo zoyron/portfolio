@@ -1,8 +1,8 @@
 
   function generateParticles(n) {
-    let value = `${getRandom(2560)}px ${getRandom(2560)}px #000`;
+    let value = `${getRandom(2560)}px ${getRandom(2560)}px #808080`;
     for (let i = 2; i <= n; i++) {
-      value += `, ${getRandom(2560)}px ${getRandom(2560)}px #000`;
+      value += `, ${getRandom(2560)}px ${getRandom(2560)}px #808080`;
     }
     return value;
   }
@@ -21,7 +21,7 @@
 
   function initBG() {
     const particlesSmall = generateParticles(1000);
-    const particlesMedium = generateParticles(500);
+    const particlesMedium = generateParticles(7500);
     const particlesLarge = generateParticles(250);
     const particles1 = document.getElementById('particles1');
     const particles2 = document.getElementById('particles2');
