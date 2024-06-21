@@ -8,8 +8,10 @@ import Container from "@components/Container.astro";
 
 <header id="header" class="fixed top-0 w-full h-16 z-50">
   <Container size="md">
-    <div class="relative h-full w-full flex items-center justify-between">
-      <div class="flex items-center gap-4">
+    <div class="relative h-full w-full">
+      <div
+        class="absolute left-0 top-1/2 -translate-y-1/2 items-center justify-center flex gap-4 font-semibold"
+      >
         <a
           href="/"
           class="flex gap-1 text-current hover:text-black dark:hover:text-white transition-colors duration-300 ease-in-out"
@@ -36,34 +38,43 @@ import Container from "@components/Container.astro";
         </button>
       </div>
 
-      <nav class="hidden md:flex items-center justify-center text-sm gap-1">
-        {
-          LINKS.map((LINK) => (
-            <a
-              key={LINK.HREF}
-              href={LINK.HREF}
-              class={cn(
-                "h-9 rounded-full px-6 text-current",
-                "flex items-center justify-center",
-                "transition-colors duration-300 ease-in-out",
-                pathname === LINK.HREF || "/" + subpath?.[0] === LINK.HREF
-                  ? "bg-black/90 dark:bg-white/90 text-white dark:text-black"
-                  : "hover:bg-black/5 dark:hover:bg-white/20 hover:text-black dark:hover:text-white",
-              )}
-            >
-              {LINK.TEXT}
-            </a>
-          ))
-        }
-      </nav>
+      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <nav class="hidden md:flex items-center justify-center text-sm gap-1">
+          {
+            LINKS.map((LINK) => (
+              <a
+                href={LINK.HREF}
+                class={cn(
+                  "h-8 rounded-full px-3 text-current",
+                  "flex items-center justify-center",
+                  "transition-colors duration-300 ease-in-out",
+                  pathname === LINK.HREF || "/" + subpath?.[0] === LINK.HREF
+                    ? "bg-black dark:bg-white text-white dark:text-black"
+                    : "hover:bg-black/5 dark:hover:bg-white/20 hover:text-black dark:hover:text-white",
+                )}
+              >
+                {LINK.TEXT}
+              </a>
+            ))
+          }
+        </nav>
+      </div>
 
-      <div class="flex items-center gap-4">
+      <div class="buttons absolute right-0 top-1/2 -translate-y-1/2 flex gap-1">
+        <!--
+      <a href="/search" aria-label={`Search blog posts and projects on ${SITE.TITLE}`} class={cn("hidden md:flex", "size-9 rounded-full p-2 items-center justify-center", "bg-transparent hover:bg-black/5 dark:hover:bg-white/20", "stroke-current hover:stroke-black hover:dark:stroke-white", "border border-black/10 dark:border-white/25", "transition-colors duration-300 ease-in-out", pathname === "/search" || "/" + subpath?.[0] === "/search" ? "pointer-events-none bg-black dark:bg-white text-white dark:text-black" : "")}>
+        <svg class="size-full">
+          <use href="/ui.svg#search"></use>
+        </svg>
+      </a>
+      -->
         <a
           href="/rss.xml"
           target="_blank"
           aria-label={`Rss feed for ${SITE.TITLE}`}
           class={cn(
-            "hidden md:flex size-9 rounded-full p-2 items-center justify-center",
+            "hidden md:flex",
+            "size-9 rounded-full p-2 items-center justify-center",
             "bg-transparent hover:bg-black/5 dark:hover:bg-white/20",
             "stroke-current hover:stroke-black hover:dark:stroke-white",
             "border border-black/10 dark:border-white/25",
@@ -79,7 +90,8 @@ import Container from "@components/Container.astro";
           id="header-drawer-button"
           aria-label={`Toggle drawer open and closed`}
           class={cn(
-            "flex md:hidden size-9 rounded-full p-2 items-center justify-center",
+            "flex md:hidden",
+            "size-9 rounded-full p-2 items-center justify-center",
             "bg-transparent hover:bg-black/5 dark:hover:bg-white/20",
             "stroke-current hover:stroke-black hover:dark:stroke-white",
             "border border-black/10 dark:border-white/25",
