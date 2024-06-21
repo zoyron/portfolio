@@ -5,7 +5,6 @@ date: "Jun 9 2024"
 draft: false
 tags:
 - Attack on titan
-- Mikasa
 - Anime
 ---
 

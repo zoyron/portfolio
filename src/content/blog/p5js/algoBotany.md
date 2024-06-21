@@ -4,7 +4,6 @@ summary: "Made an animation using the concepts of algorithmic botany"
 date: "Jun 15 2024"
 draft: false
 tags:
-- Code
 - Math
 - Art 
 ---

@@ -4,9 +4,7 @@ summary: "Things, peculiar things and questions that caught my eye while watchin
 date: "May 8 2024"
 draft: false
 tags:
-- TV
 - West World
-- Questions
 ---
 [Watch trailer on YouTube](https://www.youtube.com/watch?v=kEkZdgWu7mM&ab_channel=HBOUK)
 
