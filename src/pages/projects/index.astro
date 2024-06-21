@@ -1,28 +1,17 @@
 ---
-import { getCollection } from "astro:content"
+// Import necessary components and utilities
 import PageLayout from "@layouts/PageLayout.astro"
-import TopLayout from "@layouts/TopLayout.astro"
-import BottomLayout from "@layouts/BottomLayout.astro"
-import Projects from "@components/Projects"
-import { PROJECTS } from "@consts"
-
-const projects = (await getCollection("projects"))
-  .filter(project => !project.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-
-const tags = [...new Set(projects.flatMap(project => project.data.tags))]
-  .sort((a, b) => a.localeCompare(b))
+import { SITE } from "@consts"
 ---
 
-<PageLayout title={PROJECTS.TITLE} description={PROJECTS.DESCRIPTION}>
-  <TopLayout>
-    <div class="animate page-heading">
-      {PROJECTS.TITLE}
-    </div>
-  </TopLayout>
-  <BottomLayout>
-    <div class="animate">
-      <Projects client:load tags={tags} data={projects} />
-    </div>
-  </BottomLayout>
+<PageLayout title="404 - Not Found" description="Page not found">
+  <div class="min-h-screen flex flex-col justify-center items-center text-center p-4">
+    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-gray-100">404</h1>
+    <p class="mt-4 text-lg md:text-xl lg:text-2xl text-gray-600 dark:text-gray-400">
+      Oops! The page you are looking for does not exist.
+    </p>
+    <a href="/" class="mt-8 inline-block px-8 py-3 text-sm font-medium bg-gray-800 text-white dark:bg-gray-200 dark:text-gray-900 rounded-md hover:bg-gray-700 dark:hover:bg-gray-300">
+      Go back home
+    </a>
+  </div>
 </PageLayout>
