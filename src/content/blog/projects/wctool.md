@@ -1,5 +1,5 @@
 ---
-title: "Tutorial - Unix-wc Tool in JavaScript"
+title: "Tutorial: Unix-wc Tool in JavaScript"
 summary: "A step-by-step guide on how to implement unix's wc tool in JavaScript"
 date: "Jun 20 2024"
 draft: false
