@@ -23,21 +23,20 @@
 html {
   overflow-y: scroll;
   color-scheme: light;
-  background-color: white;
+  background-color: #ECEFF4; /* Nord Snow Storm 2 */
   font-family: "Atkinson", sans-serif;
-  
 }
 
 html.dark {
   color-scheme: dark;
-  background-color: black;
+  background-color: #2E3440; /* Nord Polar Night 0 */
 }
 
 html,
 body {
   @apply h-full w-full antialiased;
-  @apply bg-white dark:bg-black;
-  @apply text-black/75 dark:text-white/75;
+  @apply bg-[#ECEFF4] dark:bg-[#2E3440]; /* Nord Snow Storm 2 and Polar Night 0 */
+  @apply text-[#3B4252]/75 dark:text-[#D8DEE9]/75; /* Nord Polar Night 1 and Snow Storm 0 */
 }
 
 body {
@@ -45,7 +44,7 @@ body {
 }
 
 main {
-  @apply flex flex-col flex-1 bg-white dark:bg-black;
+  @apply flex flex-col flex-1 bg-[#ECEFF4] dark:bg-[#2E3440]; /* Nord Snow Storm 2 and Polar Night 0 */
 }
 
 header {
@@ -58,8 +57,8 @@ header:not(.scrolled) {
 }
 
 header.scrolled {
-  @apply bg-white/75 dark:bg-black/50;
-  @apply border-black/10 dark:border-white/25;
+  @apply bg-[#E5E9F0]/75 dark:bg-[#3B4252]/50; /* Nord Snow Storm 1 and Polar Night 1 */
+  @apply border-[#4C566A]/10 dark:border-[#4C566A]/25; /* Nord Polar Night 3 */
   @apply backdrop-blur-sm saturate-200;
 }
 
@@ -68,7 +67,7 @@ article {
 }
 
 .page-heading {
-  @apply font-semibold text-black dark:text-white;
+  @apply font-semibold text-[#3B4252] dark:text-[#D8DEE9]; /* Nord Polar Night 1 and Snow Storm 0 */
 }
 
 .blend {
@@ -108,7 +107,7 @@ article img {
  * TWINKLE STARS
  */
 
- #twinkle-star.template {
+#twinkle-star.template {
   @apply absolute -left-full; /* hide offscreen */
 }
 
@@ -122,7 +121,7 @@ article img {
  */
 
 #meteors .shower {
-  @apply absolute inset-0 top-0;;
+  @apply absolute inset-0 top-0;
   @apply left-1/2 -translate-x-1/2;
   @apply w-screen aspect-square;
 }

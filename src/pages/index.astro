@@ -27,7 +27,7 @@ const projects = (await getCollection("projects"))
   </div>
 
   <!-- Dark Theme: Stars -->
-  <div class="absolute inset-0 bg-black hidden dark:block">
+  <div class="absolute inset-0 bg-[#2E3440] hidden dark:block">
     <div id="stars1" class="fixed inset-0"></div>
     <div id="stars2" class="fixed inset-0"></div>
     <div id="stars3" class="fixed inset-0"></div>
@@ -53,16 +53,16 @@ const projects = (await getCollection("projects"))
             <div class="flex items-center mb-5">
               <div class="text-left md:pr-5">
                 <p
-                  class="animated text-lg md:text-xl lg:text-2xl font-semibold opacity-75"
+                  class="animated text-lg md:text-xl lg:text-2xl font-semibold text-[#3B4252] dark:text-[#D8DEE9] opacity-75"
                 >
                   Hello, I am Sagar
                 </p>
-                <p class="animated text-sm md:text-base lg:text-lg opacity-90">
+                <p class="animated text-sm md:text-base lg:text-lg text-[#434C5E] dark:text-[#E5E9F0] opacity-90">
                   I like to code, play music, and make art using code.
                 </p>
               </div>
               <div
-                class="w-16 h-16 md:w-16 md:h-16 lg:w-16 lg:h-16 rounded-full bg-gradient-to-b from-black/25 dark:from-white/75 from-0% to-transparent to-5% flex-shrink-0 ml-5"
+                class="w-16 h-16 md:w-16 md:h-16 lg:w-16 lg:h-16 rounded-full bg-gradient-to-b from-[#ECEFF4]/25 dark:from-[#4C566A]/75 from-0% to-transparent to-5% flex-shrink-0 ml-5"
               >
                 <img
                   src="/sagar.jpg"
@@ -72,11 +72,11 @@ const projects = (await getCollection("projects"))
               </div>
             </div>
             <section
-              class="animate text-sm md:text-base lg:text-lg opacity-90 text-left"
+              class="animate text-sm md:text-base lg:text-lg text-[#3B4252] dark:text-[#D8DEE9] opacity-90 text-left"
             >
               <article>
                 <p
-                  class="text-[#333] dark:text-white opacity-90 dark:opacity-90"
+                  class="text-[#3B4252] dark:text-[#D8DEE9] opacity-90"
                 >
                   I am a <b><i>software engineer</i></b>, <b
                     ><i>mathematical/generative artist</i></b
@@ -85,14 +85,14 @@ const projects = (await getCollection("projects"))
                   >, and <b><i>multimedia connoisseur</i></b>.
                 </p>
                 <p
-                  class="text-[#333] dark:text-white opacity-90 dark:opacity-90"
+                  class="text-[#3B4252] dark:text-[#D8DEE9] opacity-90"
                 >
                   During my career, I have built products ranging from marketing
                   and ecommerce websites to complex shaders and animations with
                   focus on delivering fast, elegant code.
                 </p>
                 <p
-                  class="text-[#333] dark:text-white opacity-90 dark:opacity-90"
+                  class="text-[#3B4252] dark:text-[#D8DEE9] opacity-90"
                 >
                   Now, I work as a freelance software engineer, where my duties
                   are product/shader planning, design and development.
@@ -107,7 +107,7 @@ const projects = (await getCollection("projects"))
     </div>
   </div>
 
-  <div class="relative bg-white dark:bg-black">
+  <div class="relative bg-[#ECEFF4] dark:bg-[#2E3440]">
     <div class="mx-auto max-w-screen-md p-5 space-y-24 pb-16">
       <!-- About Section -->
 
@@ -115,13 +115,13 @@ const projects = (await getCollection("projects"))
       <section class="animate">
         <div class="space-y-4">
           <div class="flex justify-between">
-            <p class="font-semibold text-black dark:text-white">Recent posts</p>
+            <p class="font-semibold text-[#3B4252] dark:text-[#D8DEE9]">Recent posts</p>
             <a
               href="/blog"
-              class="w-fit col-span-3 group flex gap-1 items-center underline decoration-[.5px] decoration-black/25 dark:decoration-white/50 hover:decoration-black dark:hover:decoration-white text-black dark:text-white underline-offset-2 blend"
+              class="w-fit col-span-3 group flex gap-1 items-center underline decoration-[.5px] decoration-[#4C566A]/25 dark:decoration-[#D8DEE9]/50 hover:decoration-[#4C566A] dark:hover:decoration-[#D8DEE9] text-[#3B4252] dark:text-[#D8DEE9] underline-offset-2 blend"
             >
               <span
-                class="text-black/75 dark:text-white/75 group-hover:text-black group-hover:dark:text-white blend"
+                class="text-[#3B4252]/75 dark:text-[#D8DEE9]/75 group-hover:text-[#3B4252] group-hover:dark:text-[#D8DEE9] blend"
               >
                 All posts
               </span>
@@ -142,14 +142,14 @@ const projects = (await getCollection("projects"))
       <!-- Contact Section -->
       <section class="animate">
         <div>
-          <h4 class="font-semibold text-black dark:text-white">Contact Me!</h4>
-          <p>Reach out to me via email or on social media.</p>
+          <h4 class="font-semibold text-[#3B4252] dark:text-[#D8DEE9]">Contact Me!</h4>
+          <p class="text-[#4C566A] dark:text-[#D8DEE9]">Reach out to me via email or on social media.</p>
           <div class="grid grid-cols-4 gap-y-2 mt-4 auto-cols-min">
             {
               SOCIALS.map((social) => (
                 <>
                   <div class="col-span-1 flex items-center gap-1">
-                    <span class="whitespace-nowrap truncate">
+                    <span class="whitespace-nowrap truncate text-[#4C566A] dark:text-[#D8DEE9]">
                       {social.NAME}
                     </span>
                   </div>
@@ -157,9 +157,9 @@ const projects = (await getCollection("projects"))
                     <a
                       href={social.HREF}
                       target="_blank"
-                      class="w-fit col-span-3 group flex gap-1 items-center underline decoration-[.5px] decoration-black/25 dark:decoration-white/50 hover:decoration-black dark:hover:decoration-white text-black dark:text-white underline-offset-2 blend"
+                      class="w-fit col-span-3 group flex gap-1 items-center underline decoration-[.5px] decoration-[#4C566A]/25 dark:decoration-[#D8DEE9]/50 hover:decoration-[#4C566A] dark:hover:decoration-[#D8DEE9] text-[#3B4252] dark:text-[#D8DEE9] underline-offset-2 blend"
                     >
-                      <span class="text-black/75 dark:text-white/75 group-hover:text-black group-hover:dark:text-white blend">
+                      <span class="text-[#3B4252]/75 dark:text-[#D8DEE9]/75 group-hover:text-[#3B4252] group-hover:dark:text-[#D8DEE9] blend">
                         {social.TEXT}
                       </span>
                     </a>
