@@ -23,6 +23,9 @@ The animation draws lines that radiate from the center of the canvas, creating b
 
 Here’s a quick rundown of how it works and the math behind it.
 
+### Where to write the code
+Make sure you're writing code in <a href="https://editor.p5js.org/" target="_blank">this editor</a>. Since we're  working with the library p5js, setting it up locally could be a hassle for beginners. Hence, we're writing the code online.
+
 ### The Math Behind the Magic
 - **Perlin Noise**: This is used to generate smooth, random changes in the radius and angle of the lines. Perlin noise helps create organic, flowing movements.
 
