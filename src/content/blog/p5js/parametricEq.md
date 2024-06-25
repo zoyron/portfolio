@@ -54,7 +54,7 @@ function draw(){
   }
 
   // Set background color
-  background('#4169E1');
+  background('#2E3440');
   // Translate origin to center of canvas
   translate(width / 2, height / 2);
   // Set stroke color and weight
@@ -132,7 +132,7 @@ function draw(){
   }
   
   // Set background color
-  background('#4169E1');
+  background('#2E3440');
   // Translate origin to center of canvas
   translate(width / 2, height / 2);
   // Set stroke color and weight
