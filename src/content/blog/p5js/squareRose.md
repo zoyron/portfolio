@@ -1,5 +1,5 @@
 ---
-title: "Perlin Rose: How Basic Math Creates Beautiful Art, Part - 2"
+title: "Squre Rose: How Basic Math Creates Beautiful Art, Part - 2"
 summary: "Created another red rose using basic math concepts like trigonometry, angle rotation, and perlin noise." 
 date: "Jul 6 2024"
 draft: false
