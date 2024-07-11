@@ -1,6 +1,6 @@
 ---
 title: "Reminiscent of DNA: Parametric Equations and Trigonometry"
-summary: "Crafter a DNA like structure using parametric equation and basic trigonometry"
+summary: "Crafted a DNA like structure using parametric equation and basic trigonometry"
 date: "Jul 11 2024"
 draft: false
 tags:
@@ -29,6 +29,9 @@ To see the animation working in real time follow <a href="https://editor.p5js.or
 - **Incremental Time Variable**: The variable t is incremented over time, driving the animation and creating continuous movement.
 
 ## Let's Code
+
+First off, we're using p5.js here, which is a super fun JavaScript library for creative coding. Instead of writing p5js code locally, I prefer their online editor which you can also use use <a href="https://editor.p5js.org/" target="_blank">here</a>. Make sure you're writing code in that editor only.
+
 Now that we're done with the math behind it, let's get our hands dirty with the coding part.
 
 ### Setup and initialization
