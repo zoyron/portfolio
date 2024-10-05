@@ -1,6 +1,6 @@
 # Sagar's Homepage
 
-[https://www.sagar.wtf/](https://www.sagar.wtf/)
+[https://www.sarlloc.xyz/](https://www.sarlloc.xyz/)
 
 
 ## Project structure
