@@ -1,5 +1,5 @@
 ---
-title: "Deepavali and JavaScript: Crafting a Mesmerizing Fireworks Animation with p5.js"
+title: "Deepavali and JavaScript: Fireworks Animation with p5.js"
 summary: "Learn to create a captivating fireworks animation using JavaScript and p5.js, where each particle bursts into colors drawn from a background image"
 date: "Nov 12 2024"
 draft: false
