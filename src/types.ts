@@ -18,3 +18,14 @@ export type Socials = {
   TEXT: string
   HREF: string
 }[]
+
+
+// src/types.ts
+declare global {
+  interface Window {
+    dataLayer: any[];
+    gtag: (...args: any[]) => void;
+  }
+}
+
+export {};
