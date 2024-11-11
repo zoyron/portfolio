@@ -11,6 +11,15 @@ import { SITE } from "@consts";
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B6BJ4X45VV"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-B6BJ4X45VV');
+    </script>
     <BaseHead title={`${title} | ${SITE.TITLE}`} description={description} />
   </head>
   <body>
