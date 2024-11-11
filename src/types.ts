@@ -26,6 +26,8 @@ declare global {
     dataLayer: any[];
     gtag: (...args: any[]) => void;
   }
+  // Add this line:
+  function gtag(...args: any[]): void;
 }
 
 export {};

@@ -68,17 +68,12 @@ const { title, description, image = "/open-graph.jpg" } = Astro.props
 </script>
 
 <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-B6BJ4X45VV"></script>
-<script>
-  // Ensure `window.dataLayer` is initialized
+<script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-B6BJ4X45VV"></script>
+<script is:inline>
   window.dataLayer = window.dataLayer || [];
-
-  // Attach the `gtag` function to the `window` object
   function gtag() {
-    window.dataLayer.push(arguments);
+    dataLayer.push(arguments);
   }
-
-  // Initialize Google Analytics
   gtag('js', new Date());
   gtag('config', 'G-B6BJ4X45VV');
 </script>
