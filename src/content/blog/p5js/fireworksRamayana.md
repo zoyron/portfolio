@@ -1,6 +1,6 @@
 ---
-title: "Deepavali and JavaScript: Creating a dynamic firework animation with particles"
-summary: "Learn how to create a mesmerizing particle animation using JavaScript and p5.js, with particles that take on colors from an underlying image."
+title: "Deepavali and JavaScript: Crafting a Mesmerizing Fireworks Animation with p5.js"
+summary: "Learn to create a captivating fireworks animation using JavaScript and p5.js, where each particle bursts into colors drawn from a background image"
 date: "Nov 12 2024"
 draft: false
 tags:
