@@ -1,7 +1,7 @@
 ---
 title: "Mikasa - cruel or compassionate?"
 summary: "What I actually think about Mikasa" 
-date: "Jun 9 2024"
+date: "Dec 11 2023"
 draft: false
 tags:
 - Attack on titan

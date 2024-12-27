@@ -1,7 +1,7 @@
 ---
 title: "WestWorld"
 summary: "Things, peculiar things and questions that caught my eye while watching West World"
-date: "May 8 2024"
+date: "Jan 10 2022"
 draft: false
 tags:
 - West World

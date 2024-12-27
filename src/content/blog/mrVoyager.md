@@ -1,7 +1,7 @@
 ---
 title: "Mr. Voyager"
 summary: "I talk about what it would feel like to be alone in Voyager 1, the space craft for years on end."
-date: "May 18 2024"
+date: "Dec 23 2022"
 draft: false
 tags:
 - Space
