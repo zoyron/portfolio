@@ -57,7 +57,9 @@ const projects = (await getCollection("projects"))
                 >
                   Hello, I am Sagar
                 </p>
-                <p class="animated text-sm md:text-base lg:text-lg text-[#434C5E] dark:text-[#E5E9F0] opacity-90">
+                <p
+                  class="animated text-sm md:text-base lg:text-lg text-[#434C5E] dark:text-[#E5E9F0] opacity-90"
+                >
                   I like to code, play music, and make art using code.
                 </p>
               </div>
@@ -75,25 +77,19 @@ const projects = (await getCollection("projects"))
               class="animate text-sm md:text-base lg:text-lg text-[#3B4252] dark:text-[#D8DEE9] opacity-90 text-left"
             >
               <article>
-                <p
-                  class="text-[#3B4252] dark:text-[#D8DEE9] opacity-90"
-                >
-                  I am a <b><i>software engineer</i></b>, <b
-                    ><i>mathematical/generative artist</i></b
-                  >, <b><i>chess player</i></b>, <b
-                    ><i>guitar and flute enthusiast</i></b
-                  >, and <b><i>multimedia connoisseur</i></b>.
+                <p class="text-[#3B4252] dark:text-[#D8DEE9] opacity-90">
+                  I am <b
+                    ><i>a software engineer, and a generative artist.</i></b
+                  > Also, I like to play <b
+                    ><i>chess</i>, <i>guitar, flute</i></b
+                  >, and <b><i>consume a lot of multimedia</i></b>.
                 </p>
-                <p
-                  class="text-[#3B4252] dark:text-[#D8DEE9] opacity-90"
-                >
+                <p class="text-[#3B4252] dark:text-[#D8DEE9] opacity-90">
                   During my career, I have built products ranging from marketing
                   and ecommerce websites to complex shaders and animations with
                   focus on delivering fast, elegant code.
                 </p>
-                <p
-                  class="text-[#3B4252] dark:text-[#D8DEE9] opacity-90"
-                >
+                <p class="text-[#3B4252] dark:text-[#D8DEE9] opacity-90">
                   Now, I work as a freelance software engineer, where my duties
                   are product/shader planning, design and development.
                 </p>
@@ -115,7 +111,9 @@ const projects = (await getCollection("projects"))
       <section class="animate">
         <div class="space-y-4">
           <div class="flex justify-between">
-            <p class="font-semibold text-[#3B4252] dark:text-[#D8DEE9]">Recent posts</p>
+            <p class="font-semibold text-[#3B4252] dark:text-[#D8DEE9]">
+              Recent posts
+            </p>
             <a
               href="/blog"
               class="w-fit col-span-3 group flex gap-1 items-center underline decoration-[.5px] decoration-[#4C566A]/25 dark:decoration-[#D8DEE9]/50 hover:decoration-[#4C566A] dark:hover:decoration-[#D8DEE9] text-[#3B4252] dark:text-[#D8DEE9] underline-offset-2 blend"
@@ -142,8 +140,12 @@ const projects = (await getCollection("projects"))
       <!-- Contact Section -->
       <section class="animate">
         <div>
-          <h4 class="font-semibold text-[#3B4252] dark:text-[#D8DEE9]">Contact Me!</h4>
-          <p class="text-[#4C566A] dark:text-[#D8DEE9]">Reach out to me via email or on social media.</p>
+          <h4 class="font-semibold text-[#3B4252] dark:text-[#D8DEE9]">
+            Contact Me!
+          </h4>
+          <p class="text-[#4C566A] dark:text-[#D8DEE9]">
+            Reach out to me via email or on social media.
+          </p>
           <div class="grid grid-cols-4 gap-y-2 mt-4 auto-cols-min">
             {
               SOCIALS.map((social) => (
