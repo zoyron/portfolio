@@ -1,13 +1,13 @@
 ---
 title: "Personal TypeScript Notes"
-summary: "Sharing the typescript notes that I write while making projects using typescript"
+summary: "Compilation of notes that I write/have written while making projects using typescript"
 date: "May 15 2025"
 draft: false
 tags:
   - Programming
 ---
 
-> These are some rough notes that I write/have written while making projects using typescript.
+> These are just rough notes, and not meant for learning. Here I just ramble on about the things I realize while using typescript.
 
 While passing props to a react functional component, you can either create interface or types for the props or you can define their type annotations inline. Let's see what the difference is.
 
