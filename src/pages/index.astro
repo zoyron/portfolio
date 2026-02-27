@@ -10,11 +10,6 @@ const posts = (await getCollection("blog"))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 4);
 
-// Just getting the latest 2 projects for the split grid
-const projects = (await getCollection("projects"))
-  .filter((project) => !project.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 2);
 ---
 
 <PageLayout title="Home">

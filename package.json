@@ -31,5 +31,8 @@
     "tailwindcss": "^3.4.1",
     "three": "^0.183.1",
     "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/three": "^0.183.1"
   }
 }
