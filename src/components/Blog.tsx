@@ -32,16 +32,27 @@ export default function Blog({ data, tags }: Props) {
   }
 
   return (
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <div class="col-span-3 sm:col-span-1">
+    <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
+      <div class="md:col-span-1 border-b md:border-b-0 md:border-r border-card-border pb-6 md:pb-0 md:pr-6">
         <div class="sticky top-24">
-          <div class="text-sm font-semibold uppercase mb-2 text-black dark:text-white">Filter</div>
-          <ul class="flex flex-wrap sm:flex-col gap-1.5">
+          <div class="font-display text-lg font-bold mb-4 text-foreground">Filter</div>
+          <ul class="flex flex-wrap md:flex-col gap-2">
             <For each={tags}>
               {(tag) => (
                 <li>
-                  <button onClick={() => toggleTag(tag)} class={cn("w-full px-2 py-1 rounded", "whitespace-nowrap overflow-hidden overflow-ellipsis", "flex gap-2 items-center", "bg-black/5 dark:bg-white/10", "hover:bg-black/10 hover:dark:bg-white/15", "transition-colors duration-300 ease-in-out", filter().has(tag) && "text-black dark:text-white")}>
-                    <svg class={cn("size-5 fill-black/50 dark:fill-white/50", "transition-colors duration-300 ease-in-out", filter().has(tag) && "fill-black dark:fill-white")}>
+                  <button onClick={() => toggleTag(tag)} class={cn(
+                    "w-full px-3 py-2 rounded-lg text-sm font-medium tracking-wide",
+                    "whitespace-nowrap overflow-hidden overflow-ellipsis",
+                    "flex gap-3 items-center",
+                    "border transition-all duration-300 ease-in-out",
+                    filter().has(tag) 
+                      ? "bg-foreground border-transparent text-background" 
+                      : "bg-card border-card-border/50 text-subtle hover:bg-card-border/30 hover:text-foreground"
+                  )}>
+                    <svg class={cn(
+                      "size-4 transition-colors duration-300 ease-in-out shrink-0", 
+                      filter().has(tag) ? "fill-background" : "fill-subtle/50"
+                    )}>
                       <use href={`/ui.svg#square`} class={cn(!filter().has(tag) ? "block" : "hidden")} />
                       <use href={`/ui.svg#square-check`} class={cn(filter().has(tag) ? "block" : "hidden")} />
                     </svg>
@@ -53,17 +64,20 @@ export default function Blog({ data, tags }: Props) {
           </ul>
         </div>
       </div>
-      <div class="col-span-3 sm:col-span-2">
+      <div class="md:col-span-3 lg:col-span-4">
         <div class="flex flex-col">
-          <div class="text-sm uppercase mb-2">
-            SHOWING {posts().length} OF {data.length} POSTS
+          <div class="text-xs font-mono tracking-wider uppercase text-subtle mb-6 flex items-center gap-4">
+            <span>Showing {posts().length} of {data.length} posts</span>
+            <div class="h-px bg-card-border flex-1"></div>
           </div>
-          <ul class="flex flex-col gap-3">
-            {posts().map((post) => (
-              <li>
-                <ArrowCard entry={post} />
-              </li>
-            ))}
+          <ul class="grid grid-cols-1 lg:grid-cols-2 gap-6 pb-12">
+            <For each={posts()}>
+              {(post) => (
+                <li class="h-full">
+                  <ArrowCard entry={post} />
+                </li>
+              )}
+            </For>
           </ul>
         </div>
       </div>

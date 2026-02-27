@@ -2,133 +2,69 @@
 import { getCollection } from "astro:content";
 import PageLayout from "@layouts/PageLayout.astro";
 import ArrowCard from "@components/ArrowCard";
-import StackCard from "@components/StackCard.astro";
-import { SITE, SOCIALS } from "@consts";
-import TwinklingStars from "@components/TwinklingStars.astro";
-import MeteorShower from "@components/MeteorShower.astro";
+import ParticleCanvas from "@components/ParticleCanvas.astro";
+import { SOCIALS } from "@consts";
 
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
+  .slice(0, 4);
 
-const projects = (await getCollection("projects"))
-  .filter((project) => !project.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 3);
 ---
 
 <PageLayout title="Home">
-  <!-- Light Mode: Particles -->
-  <div class="absolute inset-0 block dark:hidden">
-    <div id="particles1" class="fixed inset-0"></div>
-    <div id="particles2" class="fixed inset-0"></div>
-    <div id="particles3" class="fixed inset-0"></div>
-  </div>
-
-  <!-- Dark Theme: Stars -->
-  <div class="absolute inset-0 bg-[#2E3440] hidden dark:block">
-    <div id="stars1" class="fixed inset-0"></div>
-    <div id="stars2" class="fixed inset-0"></div>
-    <div id="stars3" class="fixed inset-0"></div>
-  </div>
-
-  <!-- Dark Theme: Twinkling Stars / Metors -->
-  <div id="galaxy" class="fixed inset-0">
-    <div class="hidden dark:block">
-      <TwinklingStars />
-      <MeteorShower />
-    </div>
-  </div>
-
-  <script is:inline src="/js/bg.js"></script>
+  <ParticleCanvas />
 
   <!-- HERO -->
-  <div class="relative">
-    <div class="mx-auto max-w-screen-md p-5 space-y-24 pb-16">
-      <!-- Hero Section -->
-      <section class="relative w-full">
-        <div class="animate mt-24 flex justify-center">
-          <div class="relative w-full flex flex-col items-start justify-center">
-            <div class="flex items-center mb-5">
-              <div class="text-left md:pr-5">
-                <p
-                  class="animated text-lg md:text-xl lg:text-2xl font-semibold text-[#3B4252] dark:text-[#D8DEE9] opacity-75"
-                >
-                  Hello, I am Sagar
-                </p>
-                <p
-                  class="animated text-sm md:text-base lg:text-lg text-[#434C5E] dark:text-[#E5E9F0] opacity-90"
-                >
-                  I like to code, play music, and make art using code.
-                </p>
-              </div>
-              <div
-                class="w-16 h-16 md:w-16 md:h-16 lg:w-16 lg:h-16 rounded-full bg-gradient-to-b from-[#ECEFF4]/25 dark:from-[#4C566A]/75 from-0% to-transparent to-5% flex-shrink-0 ml-5"
-              >
-                <img
-                  src="/sagar.jpg"
-                  alt="Your Photo"
-                  class="w-full h-full object-cover rounded-full"
-                />
-              </div>
-            </div>
-            <section
-              class="animate text-sm md:text-base lg:text-lg text-[#3B4252] dark:text-[#D8DEE9] opacity-90 text-left"
-            >
-              <article>
-                <p class="text-[#3B4252] dark:text-[#D8DEE9] opacity-90">
-                  I am <b
-                    ><i>a software engineer, and a generative artist.</i></b
-                  > Also, I like to play <b
-                    ><i>chess</i>, <i>guitar, flute</i></b
-                  >, and <b><i>consume a lot of multimedia</i></b>.
-                </p>
-                <p class="text-[#3B4252] dark:text-[#D8DEE9] opacity-90">
-                  During my career, I have built products ranging from marketing
-                  and ecommerce websites to complex shaders and animations with
-                  focus on delivering fast, elegant code.
-                </p>
-                <p class="text-[#3B4252] dark:text-[#D8DEE9] opacity-90">
-                  Now, I work as a freelance software engineer, where my duties
-                  are product/shader planning, design and development.
-                </p>
-              </article>
-            </section>
-          </div>
+  <div class="relative min-h-[90vh] flex flex-col justify-center">
+    <div class="mx-auto max-w-screen-lg p-5 w-full">
+      <section class="relative w-full animate">
+        <p class="text-xl md:text-2xl text-subtle font-display mb-4 max-w-2xl leading-relaxed">
+          Creative Engineer & Generative Artist
+        </p>
+        <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground mb-6">
+          Sagar Arora
+        </h1>
+        <p class="text-lg text-subtle max-w-2xl mb-8 leading-relaxed">
+          I operate as a solo software engineer for founders who need ideas shaped, built, and launched fast. I build everything from <strong class="font-semibold text-foreground">rapid MVPs</strong> to scalable internal tools, alongside crafting premium <strong class="font-semibold text-foreground">landing pages</strong> and interactive WebGL shaders. 
+        </p>
+        <div class="flex flex-wrap items-center gap-4">
+          <a href="https://calendly.com/sgrarora3" target="_blank" class="flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-full font-medium hover:opacity-90 transition-opacity whitespace-nowrap">
+            Book a discovery call
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </a>
         </div>
       </section>
-
-      <!-- About Section -->
     </div>
   </div>
 
-  <div class="relative bg-[#ECEFF4] dark:bg-[#2E3440]">
-    <div class="mx-auto max-w-screen-md p-5 space-y-24 pb-16">
-      <!-- About Section -->
+  <div class="relative bg-background border-t border-card-border overflow-hidden">
+    <div class="mx-auto max-w-screen-lg p-5 space-y-32 pb-24 pt-24">
+      
 
-      <!-- Blog Preview Section -->
+      <!-- Selected Writing -->
       <section class="animate">
-        <div class="space-y-4">
-          <div class="flex justify-between">
-            <p class="font-semibold text-[#3B4252] dark:text-[#D8DEE9]">
-              Recent posts
-            </p>
+        <div class="space-y-8">
+          <div class="flex justify-between items-end border-b border-card-border pb-4">
+            <h2 class="font-display text-3xl font-bold text-foreground m-0">Selected Writing</h2>
             <a
               href="/blog"
-              class="w-fit col-span-3 group flex gap-1 items-center underline decoration-[.5px] decoration-[#4C566A]/25 dark:decoration-[#D8DEE9]/50 hover:decoration-[#4C566A] dark:hover:decoration-[#D8DEE9] text-[#3B4252] dark:text-[#D8DEE9] underline-offset-2 blend"
+              class="group flex gap-2 items-center text-subtle hover:text-foreground transition-colors duration-300 font-medium"
             >
-              <span
-                class="text-[#3B4252]/75 dark:text-[#D8DEE9]/75 group-hover:text-[#3B4252] group-hover:dark:text-[#D8DEE9] blend"
-              >
-                All posts
-              </span>
+              View all
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-300 group-hover:translate-x-1">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
             </a>
           </div>
-          <ul class="space-y-4">
+          <ul class="grid grid-cols-1 md:grid-cols-2 gap-6">
             {
               posts.map((post) => (
-                <li>
+                <li class="h-full">
                   <ArrowCard entry={post} />
                 </li>
               ))
@@ -137,41 +73,48 @@ const projects = (await getCollection("projects"))
         </div>
       </section>
 
-      <!-- Contact Section -->
-      <section class="animate">
-        <div>
-          <h4 class="font-semibold text-[#3B4252] dark:text-[#D8DEE9]">
-            Contact Me!
-          </h4>
-          <p class="text-[#4C566A] dark:text-[#D8DEE9]">
-            Reach out to me via email or on social media.
-          </p>
-          <div class="grid grid-cols-4 gap-y-2 mt-4 auto-cols-min">
-            {
-              SOCIALS.map((social) => (
-                <>
-                  <div class="col-span-1 flex items-center gap-1">
-                    <span class="whitespace-nowrap truncate text-[#4C566A] dark:text-[#D8DEE9]">
-                      {social.NAME}
-                    </span>
-                  </div>
-                  <div class="col-span-3 truncate">
-                    <a
-                      href={social.HREF}
-                      target="_blank"
-                      class="w-fit col-span-3 group flex gap-1 items-center underline decoration-[.5px] decoration-[#4C566A]/25 dark:decoration-[#D8DEE9]/50 hover:decoration-[#4C566A] dark:hover:decoration-[#D8DEE9] text-[#3B4252] dark:text-[#D8DEE9] underline-offset-2 blend"
-                    >
-                      <span class="text-[#3B4252]/75 dark:text-[#D8DEE9]/75 group-hover:text-[#3B4252] group-hover:dark:text-[#D8DEE9] blend">
-                        {social.TEXT}
-                      </span>
-                    </a>
-                  </div>
-                </>
-              ))
-            }
+      <!-- Let's Talk Section -->
+      <section class="animate bg-card border border-card-border rounded-3xl p-8 md:p-12 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-accent blur-[100px] opacity-10 rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+        <div class="relative z-10 flex flex-col md:flex-row gap-8 justify-between items-start md:items-center">
+          <div class="max-w-md">
+            <h2 class="font-display text-3xl font-bold text-foreground mb-4">
+              Let's Talk
+            </h2>
+            <p class="text-subtle mb-0">
+              I am currently available for new projects. Whether you have an idea in mind or just want to say hi, feel free to reach out.
+            </p>
+          </div>
+          
+          <div class="flex flex-col gap-4 w-full md:w-auto">
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a href="mailto:sgrarora2@gmail.com" class="bg-foreground text-background hover:opacity-80 px-8 py-3 rounded-full font-medium transition-opacity duration-300 text-center">
+                Send an Email
+              </a>
+              <a href="https://calendly.com/sgrarora3" target="_blank" class="border border-card-border bg-card text-foreground hover:bg-card-border/50 px-8 py-3 rounded-full font-medium transition-colors duration-300 text-center">
+                Book a Call
+              </a>
+            </div>
+            <div class="flex gap-4 justify-center">
+              {
+                SOCIALS.filter(s => s.NAME !== "Email").map((social) => (
+                  <a
+                    href={social.HREF}
+                    target="_blank"
+                    class="size-12 rounded-full border border-card-border flex items-center justify-center text-subtle hover:text-foreground hover:border-foreground transition-colors duration-300"
+                    aria-label={`Visit ${social.NAME}`}
+                  >
+                     <svg class="size-5 fill-current">
+                      <use href={`/social.svg#${social.ICON}`} />
+                    </svg>
+                  </a>
+                ))
+              }
+            </div>
           </div>
         </div>
       </section>
+      
     </div>
   </div>
 </PageLayout>

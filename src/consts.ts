@@ -38,7 +38,7 @@ export const LINKS: Links = [
     HREF: "/", 
   },
   { 
-    TEXT: "Blog & Projects", 
+    TEXT: "Blog", 
     HREF: "/blog", 
   },
   { 
@@ -54,6 +54,12 @@ export const SOCIALS: Socials = [
     ICON: "email", 
     TEXT: "sgrarora2@gmail.com",
     HREF: "mailto:sgrarora2@gmail.com",
+  },
+  { 
+    NAME: "LinkedIn",
+    ICON: "linkedin",
+    TEXT: "Sagar Arora",
+    HREF: "https://www.linkedin.com/in/sagar-arora-b99a371ab/",
   },
   { 
     NAME: "Github",

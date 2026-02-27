@@ -8,37 +8,50 @@ type Props = {
 
 export default function ArrowCard({entry, pill}: Props) {
     return (
-      <a href={`/${entry.collection}/${entry.slug}`} class="group p-4 gap-3 flex items-center border rounded-lg hover:bg-black/5 hover:dark:bg-white/10 border-black/15 dark:border-white/20 transition-colors duration-300 ease-in-out">
-      <div class="w-full group-hover:text-black group-hover:dark:text-white blend">
-        <div class="flex flex-wrap items-center gap-2">
-          {pill &&
-            <div class="text-sm capitalize px-2 py-0.5 rounded-full border border-black/15 dark:border-white/25">
-              {entry.collection === "blog" ? "post" : "project"}
+      <a 
+        href={`/${entry.collection}/${entry.slug}`} 
+        class="group relative flex flex-col justify-between h-full p-6 border border-card-border bg-card rounded-2xl overflow-hidden hover:-translate-y-1 transition-all duration-300 ease-in-out shadow-sm hover:shadow-md"
+      >
+        <div class="absolute inset-0 bg-gradient-to-br from-card-border/0 to-card-border/0 group-hover:from-card-border/40 group-hover:to-card-border/20 transition-colors duration-500 z-0"></div>
+        <div class="absolute inset-0 border-2 border-transparent group-hover:border-foreground/10 rounded-2xl transition-colors duration-500 z-0"></div>
+        
+        <div class="relative z-10 w-full mb-6">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+            <div class="text-xs font-mono text-subtle/80 uppercase tracking-wider">
+              {formatDate(entry.data.date)}
             </div>
-          }
-          <div class="text-sm uppercase">
-            {formatDate(entry.data.date)}
+            {pill &&
+              <div class="text-[10px] sm:text-xs font-medium uppercase tracking-wider px-2.5 py-1 rounded-full bg-foreground/10 text-foreground border border-foreground/20">
+                {entry.collection === "blog" ? "post" : "project"}
+              </div>
+            }
+          </div>
+          
+          <h3 class="font-display text-xl font-bold text-foreground transition-colors duration-300 mb-3">
+            {entry.data.title}
+          </h3>
+
+          <p class="text-sm text-subtle line-clamp-3 leading-relaxed">
+            {entry.data.summary}
+          </p>
+        </div>
+        
+        <div class="relative z-10 flex items-end justify-between w-full mt-auto pt-4 border-t border-card-border/50">
+          <ul class="flex flex-wrap gap-2">
+            {entry.data.tags.map((tag: string) => (
+              <li class="text-[10px] uppercase font-medium tracking-wide py-1 px-2 rounded bg-card-border/50 text-foreground/70 group-hover:bg-foreground/10 group-hover:text-foreground transition-colors duration-300">
+                {tag}
+              </li>
+            ))}
+          </ul>
+          
+          <div class="flex-shrink-0 ml-4 p-2 rounded-full bg-background group-hover:bg-foreground group-hover:text-background text-subtle transition-colors duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" class="stroke-current stroke-2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12" class="scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-300 ease-out" />
+              <polyline points="12 5 19 12 12 19" class="-translate-x-2 group-hover:translate-x-0 transition-transform duration-300 ease-out" />
+            </svg>
           </div>
         </div>
-        <div class="font-semibold mt-3 text-black dark:text-white">
-          {entry.data.title}
-        </div>
-
-        <div class="text-sm line-clamp-2">
-          {entry.data.summary}
-        </div>
-        <ul class="flex flex-wrap mt-2 gap-1">
-          {entry.data.tags.map((tag:string) => ( // this line has an error; Parameter 'tag' implicitly has an 'any' type.ts(7006)
-            <li class="text-xs uppercase py-0.5 px-1 rounded bg-black/5 dark:bg-white/20 text-black/75 dark:text-white/75">
-              {tag}
-            </li>
-          ))}
-        </ul>
-      </div>
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="stroke-current group-hover:stroke-black group-hover:dark:stroke-white">
-        <line x1="5" y1="12" x2="19" y2="12" class="scale-x-0 group-hover:scale-x-100 translate-x-4 group-hover:translate-x-1 transition-all duration-300 ease-in-out" />
-        <polyline points="12 5 19 12 12 19" class="translate-x-0 group-hover:translate-x-1 transition-all duration-300 ease-in-out" />
-      </svg>
-    </a>
+      </a>
    )
 }
