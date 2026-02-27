@@ -41,14 +41,14 @@ function formatWorkDate(input: Date | string) {
         work.map((entry) => (
           <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active mb-12 last:mb-0">
             <!-- Timeline dot -->
-            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-background bg-card-border group-hover:bg-accent group-hover:shadow-[0_0_15px_rgba(94,234,212,0.5)] transition-all duration-300 absolute left-0 md:left-1/2 -translate-x-1/2 shrink-0 z-10">
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-background bg-card-border group-hover:bg-foreground group-hover:shadow-md transition-all duration-300 absolute left-0 md:left-1/2 -translate-x-1/2 shrink-0 z-10">
               <div class="w-2.5 h-2.5 rounded-full bg-background"></div>
             </div>
             
             <!-- Content Card -->
             <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-6 md:p-8 bg-card border border-card-border rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 relative group-hover:-translate-y-1 transition-transform ease-out">
               <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
-                <h3 class="font-display text-2xl font-bold text-foreground group-hover:text-accent transition-colors duration-300">
+                <h3 class="font-display text-2xl font-bold text-foreground transition-colors duration-300">
                   {entry.data.company}
                 </h3>
                 <time class="text-xs font-mono tracking-wider px-3 py-1 rounded-full bg-background border border-card-border text-subtle shrink-0">
@@ -56,7 +56,7 @@ function formatWorkDate(input: Date | string) {
                 </time>
               </div>
               
-              <div class="text-accent font-medium text-lg mb-6">
+              <div class="text-foreground font-medium text-lg mb-6">
                 {entry.data.role}
               </div>
               

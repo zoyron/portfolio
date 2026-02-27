@@ -24,12 +24,24 @@ const projects = (await getCollection("projects"))
   <div class="relative min-h-[90vh] flex flex-col justify-center">
     <div class="mx-auto max-w-screen-lg p-5 w-full">
       <section class="relative w-full animate">
-        <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground mb-4">
+        <p class="text-xl md:text-2xl text-subtle font-display mb-4 max-w-2xl leading-relaxed">
+          Creative Engineer & Generative Artist
+        </p>
+        <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground mb-6">
           Sagar Arora
         </h1>
-        <p class="text-xl md:text-2xl text-foreground opacity-80 font-display max-w-2xl leading-relaxed">
-          Generative Artist & Software Engineer
+        <p class="text-lg text-subtle max-w-2xl mb-8 leading-relaxed">
+          I operate as a solo software engineer for founders who need ideas shaped, built, and launched fast. I build everything from <strong class="font-semibold text-foreground">rapid MVPs</strong> to scalable internal tools, alongside crafting premium <strong class="font-semibold text-foreground">landing pages</strong> and interactive WebGL shaders. 
         </p>
+        <div class="flex flex-wrap items-center gap-4">
+          <a href="https://calendly.com/sgrarora3" target="_blank" class="flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-full font-medium hover:opacity-90 transition-opacity whitespace-nowrap">
+            Book a discovery call
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </a>
+        </div>
       </section>
     </div>
   </div>
@@ -37,43 +49,6 @@ const projects = (await getCollection("projects"))
   <div class="relative bg-background border-t border-card-border overflow-hidden">
     <div class="mx-auto max-w-screen-lg p-5 space-y-32 pb-24 pt-24">
       
-      <!-- About Section -->
-      <section class="animate grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
-        <div class="md:col-span-7">
-          <article class="prose max-w-full text-subtle">
-            <h2 class="font-display text-3xl font-bold text-foreground mb-6">About</h2>
-            <p>
-              I am a software engineer and a generative artist. Also, I like to play chess, guitar, flute, and consume a lot of multimedia.
-            </p>
-            <p>
-              During my career, I have built products ranging from marketing and ecommerce websites to complex shaders and animations with a focus on delivering fast, elegant code.
-            </p>
-            <p>
-              Now, I work as a freelance software engineer, where my duties are product/shader planning, design and development.
-            </p>
-            
-            <h3 class="font-display text-xl text-foreground mt-8 mb-4">Core Stack</h3>
-            <div class="flex flex-wrap gap-2">
-              {['Three.js', 'WebGL', 'GLSL', 'p5.js', 'React', 'TypeScript', 'Astro'].map(skill => (
-                <span class="px-3 py-1 text-xs font-mono bg-card border border-card-border rounded-full text-foreground shadow-sm">
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </article>
-        </div>
-        
-        <div class="md:col-span-5 relative group hidden md:block">
-          <div class="absolute inset-0 bg-accent blur-[80px] opacity-10 group-hover:opacity-30 transition-opacity duration-700 rounded-full mix-blend-screen"></div>
-          <div class="relative aspect-[4/5] w-full max-w-xs mx-auto overflow-hidden rounded-2xl border border-card-border shadow-xl">
-             <img
-              src="/sagar.jpg"
-              alt="Sagar Arora"
-              class="w-full h-full object-cover filter grayscale contrast-125 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out"
-            />
-          </div>
-        </div>
-      </section>
 
       <!-- Selected Writing -->
       <section class="animate">
@@ -82,7 +57,7 @@ const projects = (await getCollection("projects"))
             <h2 class="font-display text-3xl font-bold text-foreground m-0">Selected Writing</h2>
             <a
               href="/blog"
-              class="group flex gap-2 items-center text-subtle hover:text-accent transition-colors duration-300 font-medium"
+              class="group flex gap-2 items-center text-subtle hover:text-foreground transition-colors duration-300 font-medium"
             >
               View all
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-300 group-hover:translate-x-1">
@@ -112,21 +87,26 @@ const projects = (await getCollection("projects"))
               Let's Talk
             </h2>
             <p class="text-subtle mb-0">
-              I am currently available for freelance work. Whether you have a project in mind or just want to say hi, feel free to reach out.
+              I am currently available for new projects. Whether you have an idea in mind or just want to say hi, feel free to reach out.
             </p>
           </div>
           
           <div class="flex flex-col gap-4 w-full md:w-auto">
-            <a href="mailto:sgrarora2@gmail.com" class="bg-foreground text-background hover:bg-accent hover:text-white px-8 py-3 rounded-full font-medium transition-colors duration-300 text-center">
-              Send an Email
-            </a>
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a href="mailto:sgrarora2@gmail.com" class="bg-foreground text-background hover:opacity-80 px-8 py-3 rounded-full font-medium transition-opacity duration-300 text-center">
+                Send an Email
+              </a>
+              <a href="https://calendly.com/sgrarora3" target="_blank" class="border border-card-border bg-card text-foreground hover:bg-card-border/50 px-8 py-3 rounded-full font-medium transition-colors duration-300 text-center">
+                Book a Call
+              </a>
+            </div>
             <div class="flex gap-4 justify-center">
               {
                 SOCIALS.filter(s => s.NAME !== "Email").map((social) => (
                   <a
                     href={social.HREF}
                     target="_blank"
-                    class="size-12 rounded-full border border-card-border flex items-center justify-center text-subtle hover:text-accent hover:border-accent transition-colors duration-300"
+                    class="size-12 rounded-full border border-card-border flex items-center justify-center text-subtle hover:text-foreground hover:border-foreground transition-colors duration-300"
                     aria-label={`Visit ${social.NAME}`}
                   >
                      <svg class="size-5 fill-current">

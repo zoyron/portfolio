@@ -8,19 +8,27 @@ import Container from "@components/Container.astro";
 
 <header id="header" class="fixed top-0 w-full h-20 z-50">
   <Container size="lg">
-    <div class="relative h-full w-full">
-      <div
-        class="absolute left-0 top-1/2 -translate-y-1/2 items-center justify-center flex gap-4 font-semibold"
-      >
-        <a
-          href="/"
-          class="flex gap-1 text-foreground hover:text-accent transition-colors duration-300 ease-in-out font-display tracking-wide"
+    <div class="flex items-center justify-between h-full w-full">
+      <div class="flex gap-3">
+        <button
+          id="header-theme-button"
+          aria-label={`Toggle light and dark theme`}
+          class={cn(
+            "size-10 rounded-full p-2.5 items-center justify-center",
+            "bg-card/60 backdrop-blur-md border border-card-border/50 text-subtle hover:text-foreground hover:border-foreground shadow-sm",
+            "transition-all duration-300 ease-in-out hover:-translate-y-0.5",
+          )}
         >
-          <p class="font-bold text-xl uppercase">Sagar</p>
-        </a>
+          <svg class="size-full block dark:hidden stroke-current fill-none">
+            <use href="/ui.svg#sun"></use>
+          </svg>
+          <svg class="size-full hidden dark:block stroke-current fill-none">
+            <use href="/ui.svg#moon"></use>
+          </svg>
+        </button>
       </div>
 
-      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div class="flex items-center gap-3">
         <nav class="hidden md:flex items-center justify-center text-sm gap-2 p-1.5 rounded-full bg-card/60 backdrop-blur-md border border-card-border/50 shadow-sm">
           {
             LINKS.map((LINK) => (
@@ -40,40 +48,21 @@ import Container from "@components/Container.astro";
             ))
           }
         </nav>
-      </div>
 
-      <div class="buttons absolute right-0 top-1/2 -translate-y-1/2 flex gap-3">
-        <button
-          id="header-theme-button"
-          aria-label={`Toggle light and dark theme`}
-          class={cn(
-            "size-10 rounded-full p-2.5 items-center justify-center",
-            "bg-card/60 backdrop-blur-md border border-card-border/50 text-subtle hover:text-accent hover:border-accent shadow-sm",
-            "transition-all duration-300 ease-in-out hover:-translate-y-0.5",
-          )}
-        >
-          <svg class="size-full block dark:hidden fill-current">
-            <use href="/ui.svg#sun"></use>
-          </svg>
-          <svg class="size-full hidden dark:block fill-current">
-            <use href="/ui.svg#moon"></use>
-          </svg>
-        </button>
-        
         <button
           id="header-drawer-button"
           aria-label={`Toggle drawer open and closed`}
           class={cn(
             "flex md:hidden",
             "size-10 rounded-full p-2.5 items-center justify-center",
-            "bg-card/60 backdrop-blur-md border border-card-border/50 text-subtle hover:text-accent hover:border-accent shadow-sm",
+            "bg-card/60 backdrop-blur-md border border-card-border/50 text-subtle hover:text-foreground hover:border-foreground shadow-sm",
             "transition-all duration-300 ease-in-out",
           )}
         >
-          <svg id="drawer-open" class="size-full fill-current">
+          <svg id="drawer-open" class="size-full stroke-current fill-none">
             <use href="/ui.svg#menu"></use>
           </svg>
-          <svg id="drawer-close" class="size-full fill-current">
+          <svg id="drawer-close" class="size-full stroke-current fill-none">
             <use href="/ui.svg#x"></use>
           </svg>
         </button>

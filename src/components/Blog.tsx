@@ -46,12 +46,12 @@ export default function Blog({ data, tags }: Props) {
                     "flex gap-3 items-center",
                     "border transition-all duration-300 ease-in-out",
                     filter().has(tag) 
-                      ? "bg-accent/10 border-accent/20 text-accent" 
+                      ? "bg-foreground border-transparent text-background" 
                       : "bg-card border-card-border/50 text-subtle hover:bg-card-border/30 hover:text-foreground"
                   )}>
                     <svg class={cn(
                       "size-4 transition-colors duration-300 ease-in-out shrink-0", 
-                      filter().has(tag) ? "fill-accent" : "fill-subtle/50"
+                      filter().has(tag) ? "fill-background" : "fill-subtle/50"
                     )}>
                       <use href={`/ui.svg#square`} class={cn(!filter().has(tag) ? "block" : "hidden")} />
                       <use href={`/ui.svg#square-check`} class={cn(filter().has(tag) ? "block" : "hidden")} />

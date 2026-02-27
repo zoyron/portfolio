@@ -51,19 +51,22 @@ html {
   color: var(--foreground);
   font-family: "Atkinson", sans-serif;
   transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+  @apply min-h-screen w-full antialiased;
 }
 
 html.dark {
   color-scheme: dark;
 }
 
-html,
-body,
-main {
-  @apply h-full w-full antialiased;
+body {
+  @apply min-h-screen w-full relative flex flex-col;
   background-color: var(--background);
   color: var(--subtle);
   transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+}
+
+main {
+  @apply flex flex-col flex-1 w-full;
 }
 
 body {
