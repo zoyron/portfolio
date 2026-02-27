@@ -6,13 +6,57 @@ export default {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
   theme: {
     extend: {
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        accent: "var(--accent)",
+        "accent-glow": "var(--accent-glow)",
+        card: "var(--card-bg)",
+        "card-border": "var(--card-border)",
+        subtle: "var(--subtle)",
+        muted: "var(--muted)",
+      },
       fontFamily: {
         "sans": ["Atkinson", ...defaultTheme.fontFamily.sans],
+        "display": ["'Space Grotesk Variable'", ...defaultTheme.fontFamily.sans],
       },
       typography: {
         DEFAULT: {
           css: {
             maxWidth: "full",
+            color: "var(--foreground)",
+            a: {
+              color: "var(--accent)",
+              '&:hover': {
+                color: "var(--accent-glow)",
+              },
+            },
+            strong: {
+              color: "var(--foreground)",
+            },
+            h1: {
+              color: "var(--foreground)",
+              fontFamily: "'Space Grotesk Variable', sans-serif",
+            },
+            h2: {
+              color: "var(--foreground)",
+              fontFamily: "'Space Grotesk Variable', sans-serif",
+            },
+            h3: {
+              color: "var(--foreground)",
+              fontFamily: "'Space Grotesk Variable', sans-serif",
+            },
+            h4: {
+              color: "var(--foreground)",
+              fontFamily: "'Space Grotesk Variable', sans-serif",
+            },
+            code: {
+              color: "var(--foreground)",
+            },
+            blockquote: {
+              color: "var(--muted)",
+              borderLeftColor: "var(--accent)",
+            },
           },
         },
       },

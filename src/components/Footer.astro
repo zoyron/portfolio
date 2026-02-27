@@ -3,78 +3,57 @@ import { SITE, SOCIALS } from "@consts"
 import Container from "@components/Container.astro"
 ---
 
-<footer class="relative bg-[#ECEFF4] dark:bg-[#2E3440]">
+<footer class="relative bg-background border-t border-card-border mt-auto">
   <div class="animate">
-    <section class="py-5">
-      <Container size="md">
-        <div class="flex items-center justify-center sm:justify-end">
-          <button id="back-to-top" aria-label="Back to top of page" class="group flex w-fit p-1.5 gap-1.5 text-sm items-center border rounded hover:bg-[#4C566A]/10 hover:dark:bg-[#D8DEE9]/10 border-[#4C566A]/15 dark:border-[#D8DEE9]/20 transition-colors duration-300 ease-in-out">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="stroke-current group-hover:stroke-[#4C566A] group-hover:dark:stroke-[#D8DEE9] rotate-90">
-              <line x1="19" y1="12" x2="5" y2="12" class="scale-x-0 group-hover:scale-x-100 translate-x-3 group-hover:translate-x-0 transition-all duration-300 ease-in-out" />
-              <polyline points="12 19 5 12 12 5" class="translate-x-1 group-hover:translate-x-0 transition-all duration-300 ease-in-out" />
-            </svg>
-            <div class="w-full group-hover:text-[#4C566A] group-hover:dark:text-[#D8DEE9] transition-colors duration-300 ease-in-out">
-              Back to top
-            </div>
-          </button>
-        </div>
-      </Container>
-    </section>
-  
-    <section class="py-5 overflow-hidden whitespace-nowrap border-t border-[#4C566A]/10 dark:border-[#D8DEE9]/25">
-      <Container size="md">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div class="flex gap-2 justify-center sm:justify-end items-center">
-            <span class="relative flex h-3 w-3">
-              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#A3BE8C]"></span>
-              <span class="relative inline-flex rounded-full h-3 w-3 bg-[#88C0D0]"></span>
-            </span>
-            All systems normal
-          </div>
-        </div>
-      </Container>
-    </section>
-  
-    <section class="py-5 overflow-hidden whitespace-nowrap border-t border-[#4C566A]/10 dark:border-[#D8DEE9]/25">
-      <Container size="md">
-        <div class="h-full grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div class="order-2 sm:order-1 flex flex-col items-center justify-center sm:items-start">
-            <div class="legal">
-              <a href="/legal/terms" class="text-current hover:text-[#4C566A] dark:hover:text-[#D8DEE9] transition-colors duration-300 ease-in-out">
+    <section class="py-12">
+      <Container size="lg">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4">
+          <div class="flex flex-col items-center md:items-start gap-3 md:gap-2">
+            <div class="flex items-center gap-4 md:gap-2">
+              <a href="/legal/terms" class="text-sm font-medium text-subtle hover:text-foreground transition-colors duration-300">
                 Terms
-              </a> |
-              <a href="/legal/privacy" class="text-current hover:text-[#4C566A] dark:hover:text-[#D8DEE9] transition-colors duration-300 ease-in-out">
+              </a>
+              <span class="text-card-border hidden md:inline">•</span>
+              <a href="/legal/privacy" class="text-sm font-medium text-subtle hover:text-foreground transition-colors duration-300">
                 Privacy
               </a>
             </div>
-            <div class="text-sm mt-2 text-[#4C566A] dark:text-[#D8DEE9]">
-              &copy; 2024 | All rights reserved
+            <div class="text-sm text-subtle/70">
+              &copy; {new Date().getFullYear()} {SITE.TITLE} | All rights reserved
             </div>
           </div>
   
-          <div class="order-1 sm:order-2 flex justify-center sm:justify-end">
-            <div class="flex flex-wrap gap-1 items-center justify-center">
+          <div class="flex flex-wrap items-center justify-center gap-4 md:gap-6">
+            <div class="flex gap-2">
               {
                 SOCIALS.map((SOCIAL) => (
                   <a 
                     href={SOCIAL.HREF} 
                     target="_blank" 
                     aria-label={`${SITE.TITLE} on ${SOCIAL.NAME}`} 
-                    class="group size-10 rounded-full p-2 items-center justify-center hover:bg-[#4C566A]/10 dark:hover:bg-[#D8DEE9]/20 blend"
+                    class="group size-10 flex items-center justify-center rounded-full border border-transparent hover:border-card-border hover:bg-card transition-all duration-300"
                   >
-                    <svg class="size-full fill-current group-hover:fill-[#4C566A] group-hover:dark:fill-[#D8DEE9] blend">
+                    <svg class="size-5 fill-subtle group-hover:fill-foreground transition-colors duration-300">
                       <use href={`/social.svg#${SOCIAL.ICON}`} />
                     </svg>
                   </a>
                 ))
               }
-              </div>
+            </div>
+            
+            <div class="hidden md:block w-px h-6 bg-card-border mx-1"></div>
+            
+            <button id="back-to-top" aria-label="Back to top of page" class="group size-10 flex items-center justify-center rounded-full bg-accent/10 hover:bg-accent hover:shadow-[0_0_15px_rgba(94,234,212,0.4)] transition-all duration-300 shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-accent group-hover:text-background transition-colors duration-300 -rotate-90">
+                <line x1="12" y1="19" x2="12" y2="5" class="translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-in-out" />
+                <polyline points="5 12 12 5 19 12" class="translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-in-out" />
+              </svg>
+            </button>
           </div>
         </div>
       </Container>
     </section>
   </div>
-
 </footer>
 
 <script is:inline>

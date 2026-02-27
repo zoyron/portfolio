@@ -1,0 +1,299 @@
+---
+---
+<canvas id="hero-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-0 transition-opacity duration-1000"></canvas>
+
+<script>
+  import * as THREE from 'three';
+
+  function initCanvas() {
+    const canvas = document.getElementById('hero-canvas') as HTMLCanvasElement;
+    if (!canvas) return;
+
+    // Remove any existing canvas contents if Astro re-runs the script
+    const existingRenderer = canvas.getAttribute('data-initialized');
+    if (existingRenderer) return;
+    canvas.setAttribute('data-initialized', 'true');
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: "high-performance" });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // Particle setup
+    const particleCount = 2000;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const speeds = new Float32Array(particleCount);
+    const phases = new Float32Array(particleCount);
+
+    for (let i = 0; i < particleCount; i++) {
+      // Random positions inside a sphere
+      const r = 12 * Math.cbrt(Math.random());
+      const theta = Math.random() * 2 * Math.PI;
+      const phi = Math.acos(2 * Math.random() - 1);
+      
+      positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      positions[i * 3 + 2] = r * Math.cos(phi);
+
+      speeds[i] = Math.random() * 0.02 + 0.005;
+      phases[i] = Math.random() * Math.PI * 2;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('aSpeed', new THREE.BufferAttribute(speeds, 1));
+    geometry.setAttribute('aPhase', new THREE.BufferAttribute(phases, 1));
+
+    // Colors based on theme
+    const getColors = () => {
+      const isDark = document.documentElement.classList.contains('dark');
+      // Use the accent color / foreground based on theme
+      // Teal-300 = #5EEAD4 (dark), Teal-600 = #0D9488 (light)
+      const color1 = isDark ? new THREE.Color(0x5eead4) : new THREE.Color(0x0d9488);
+      const color2 = isDark ? new THREE.Color(0xd8dee9) : new THREE.Color(0x3b4252);
+      return { color1, color2 };
+    };
+
+    let colors = getColors();
+
+    const fetchThemeColors = () => {
+      colors = getColors();
+      material.uniforms.uColor1.value = colors.color1;
+      material.uniforms.uColor2.value = colors.color2;
+      
+      // Update blending mode based on theme for better visibility
+      const isDark = document.documentElement.classList.contains('dark');
+      if (isDark) {
+        material.blending = THREE.AdditiveBlending;
+        material.transparent = true;
+      } else {
+        material.blending = THREE.NormalBlending;
+        material.transparent = true;
+      }
+      material.needsUpdate = true;
+    }
+
+    const material = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uMouse: { value: new THREE.Vector2(0, 0) },
+        uColor1: { value: colors.color1 },
+        uColor2: { value: colors.color2 },
+        uPixelRatio: { value: Math.min(window.devicePixelRatio, 2) }
+      },
+      vertexShader: `
+        uniform float uTime;
+        uniform vec2 uMouse;
+        uniform float uPixelRatio;
+        attribute float aSpeed;
+        attribute float aPhase;
+        
+        varying vec2 vUv;
+        varying float vDistance;
+
+        // Simplex noise function
+        vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+        vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+        vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
+        vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
+
+        float snoise(vec3 v) {
+          const vec2 C = vec2(1.0/6.0, 1.0/3.0);
+          const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
+
+          vec3 i  = floor(v + dot(v, C.yyy));
+          vec3 x0 = v - i + dot(i, C.xxx);
+
+          vec3 g = step(x0.yzx, x0.xyz);
+          vec3 l = 1.0 - g;
+          vec3 i1 = min(g.xyz, l.zxy);
+          vec3 i2 = max(g.xyz, l.zxy);
+
+          vec3 x1 = x0 - i1 + C.xxx;
+          vec3 x2 = x0 - i2 + C.yyy;
+          vec3 x3 = x0 - D.yyy;
+
+          i = mod289(i);
+          vec4 p = permute(permute(permute(
+                    i.z + vec4(0.0, i1.z, i2.z, 1.0))
+                  + i.y + vec4(0.0, i1.y, i2.y, 1.0))
+                  + i.x + vec4(0.0, i1.x, i2.x, 1.0));
+
+          float n_ = 0.142857142857; // 1.0/7.0
+          vec3 ns = n_ * D.wyz - D.xzx;
+
+          vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
+
+          vec4 x_ = floor(j * ns.z);
+          vec4 y_ = floor(j - 7.0 * x_);
+
+          vec4 x = x_ *ns.x + ns.yyyy;
+          vec4 y = y_ *ns.x + ns.yyyy;
+          vec4 h = 1.0 - abs(x) - abs(y);
+
+          vec4 b0 = vec4(x.xy, y.xy);
+          vec4 b1 = vec4(x.zw, y.zw);
+
+          vec4 s0 = floor(b0)*2.0 + 1.0;
+          vec4 s1 = floor(b1)*2.0 + 1.0;
+          vec4 sh = -step(h, vec4(0.0));
+
+          vec4 a0 = b0.xzyw + s0.xzyw*sh.xxyy;
+          vec4 a1 = b1.xzyw + s1.xzyw*sh.zzww;
+
+          vec3 p0 = vec3(a0.xy, h.x);
+          vec3 p1 = vec3(a0.zw, h.y);
+          vec3 p2 = vec3(a1.xy, h.z);
+          vec3 p3 = vec3(a1.zw, h.w);
+
+          vec4 norm = taylorInvSqrt(vec4(dot(p0,p0), dot(p1,p1), dot(p2, p2), dot(p3,p3)));
+          p0 *= norm.x;
+          p1 *= norm.y;
+          p2 *= norm.z;
+          p3 *= norm.w;
+
+          vec4 m = max(0.6 - vec4(dot(x0,x0), dot(x1,x1), dot(x2,x2), dot(x3,x3)), 0.0);
+          m = m * m;
+          return 42.0 * dot(m*m, vec4(dot(p0,x0), dot(p1,x1), dot(p2,x2), dot(p3,x3)));
+        }
+
+        void main() {
+          vec3 pos = position;
+          
+          // Flow field distortion
+          float noiseFreq = 0.3;
+          float noiseScale = 0.5;
+          vec3 noisePos = vec3(pos.x * noiseFreq + uTime * aSpeed, pos.y * noiseFreq, pos.z * noiseFreq);
+          pos.x += snoise(noisePos) * noiseScale;
+          pos.y += snoise(noisePos + vec3(10.0)) * noiseScale;
+          pos.z += snoise(noisePos + vec3(20.0)) * noiseScale;
+
+          // Mouse repulsion
+          vec3 mouse3D = vec3((uMouse.x * 2.0 - 1.0) * 10.0, -(uMouse.y * 2.0 - 1.0) * 10.0, 0.0);
+          float dist = distance(pos, mouse3D);
+          vDistance = dist;
+          
+          if (dist < 4.0) {
+            vec3 dir = normalize(pos - mouse3D);
+            pos += dir * (4.0 - dist) * 0.8;
+          }
+
+          vec4 mvPosition = modelViewMatrix * vec4(pos, 1.0);
+          
+          // Size attenuation based on depth and pixel ratio
+          gl_PointSize = (12.0 * uPixelRatio) * (1.0 / -mvPosition.z) * (sin(uTime * aSpeed * 5.0 + aPhase) * 0.5 + 0.5 + 0.5);
+          gl_Position = projectionMatrix * mvPosition;
+        }
+      `,
+      fragmentShader: `
+        uniform vec3 uColor1;
+        uniform vec3 uColor2;
+        varying float vDistance;
+
+        void main() {
+          // Circular particle
+          float distToCenter = distance(gl_PointCoord, vec2(0.5));
+          if (distToCenter > 0.5) discard;
+          
+          // Soft edge
+          float alpha = 1.0 - smoothstep(0.3, 0.5, distToCenter);
+          
+          // Color mixing based on distance to center of scene
+          vec3 finalColor = mix(uColor1, uColor2, clamp(vDistance / 10.0, 0.0, 1.0));
+          
+          gl_FragColor = vec4(finalColor, alpha * 0.85);
+        }
+      `,
+      transparent: true,
+      depthWrite: false,
+    });
+    
+    // Initial blend setup
+    const isDark = document.documentElement.classList.contains('dark');
+    if (isDark) {
+      material.blending = THREE.AdditiveBlending;
+    } else {
+      material.blending = THREE.NormalBlending;
+    }
+
+    const particles = new THREE.Points(geometry, material);
+    scene.add(particles);
+
+    // Mouse Interaction
+    let targetMouseX = 0;
+    let targetMouseY = 0;
+
+    const onMouseMove = (e: MouseEvent) => {
+      targetMouseX = e.clientX / window.innerWidth;
+      targetMouseY = e.clientY / window.innerHeight;
+    };
+    window.addEventListener('mousemove', onMouseMove);
+
+    // Resize Handling
+    const onResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      material.uniforms.uPixelRatio.value = Math.min(window.devicePixelRatio, 2);
+    };
+    window.addEventListener('resize', onResize);
+
+    // Theme Mutation Observer
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'class') {
+          fetchThemeColors();
+        }
+      });
+    });
+    observer.observe(document.documentElement, { attributes: true });
+
+    // Animation Loop
+    const clock = new THREE.Clock();
+    let animationFrameId: number;
+
+    const animate = () => {
+      animationFrameId = requestAnimationFrame(animate);
+      
+      const elapsedTime = clock.getElapsedTime();
+      material.uniforms.uTime.value = elapsedTime;
+
+      // Smooth mouse follow
+      material.uniforms.uMouse.value.x += (targetMouseX - material.uniforms.uMouse.value.x) * 0.05;
+      material.uniforms.uMouse.value.y += (targetMouseY - material.uniforms.uMouse.value.y) * 0.05;
+
+      // Gentle rotation
+      particles.rotation.y = elapsedTime * 0.05;
+      particles.rotation.x = elapsedTime * 0.02;
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
+
+    // Cleanup for Astro view transitions
+    document.addEventListener("astro:before-swap", () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', onResize);
+      window.removeEventListener('mousemove', onMouseMove);
+      observer.disconnect();
+      geometry.dispose();
+      material.dispose();
+      renderer.dispose();
+    }, { once: true });
+  }
+
+  // Initialize on load and on view transitions swap
+  document.addEventListener('astro:page-load', initCanvas);
+  
+  // Also call it immediately for the first load if it's already ready
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    initCanvas();
+  } else {
+    document.addEventListener('DOMContentLoaded', initCanvas);
+  }
+</script>

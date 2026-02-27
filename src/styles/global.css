@@ -20,23 +20,50 @@
   }
 }
 
+:root {
+  /* Light mode palette (Warm Nord-ish + Teal) */
+  --background: #F8F9FB;
+  --foreground: #3B4252;
+  --accent: #0D9488;
+  --accent-glow: #14B8A6;
+  --card-bg: #FFFFFF;
+  --card-border: rgba(76, 86, 106, 0.15);
+  --subtle: rgba(59, 66, 82, 0.75);
+  --muted: #4C566A;
+}
+
+html.dark {
+  /* Dark mode palette (Nord Polar Night + Cyan/Teal) */
+  --background: #2E3440;
+  --foreground: #D8DEE9;
+  --accent: #5EEAD4;
+  --accent-glow: #2DD4BF;
+  --card-bg: #3B4252;
+  --card-border: rgba(216, 222, 233, 0.15);
+  --subtle: rgba(216, 222, 233, 0.75);
+  --muted: #E5E9F0;
+}
+
 html {
   overflow-y: scroll;
   color-scheme: light;
-  background-color: #ECEFF4; /* Nord Snow Storm 2 */
+  background-color: var(--background);
+  color: var(--foreground);
   font-family: "Atkinson", sans-serif;
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 
 html.dark {
   color-scheme: dark;
-  background-color: #2E3440; /* Nord Polar Night 0 */
 }
 
 html,
-body {
+body,
+main {
   @apply h-full w-full antialiased;
-  @apply bg-[#ECEFF4] dark:bg-[#2E3440]; /* Nord Snow Storm 2 and Polar Night 0 */
-  @apply text-[#3B4252]/75 dark:text-[#D8DEE9]/75; /* Nord Polar Night 1 and Snow Storm 0 */
+  background-color: var(--background);
+  color: var(--subtle);
+  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 
 body {
@@ -44,7 +71,7 @@ body {
 }
 
 main {
-  @apply flex flex-col flex-1 bg-[#ECEFF4] dark:bg-[#2E3440]; /* Nord Snow Storm 2 and Polar Night 0 */
+  @apply flex flex-col flex-1;
 }
 
 header {
@@ -57,17 +84,18 @@ header:not(.scrolled) {
 }
 
 header.scrolled {
-  @apply bg-[#E5E9F0]/75 dark:bg-[#3B4252]/50; /* Nord Snow Storm 1 and Polar Night 1 */
-  @apply border-[#4C566A]/10 dark:border-[#4C566A]/25; /* Nord Polar Night 3 */
-  @apply backdrop-blur-sm saturate-200;
+  background-color: color-mix(in srgb, var(--background) 80%, transparent);
+  border-bottom-color: var(--card-border);
+  @apply backdrop-blur-md saturate-150;
 }
 
 article {
-  @apply prose dark:prose-invert max-w-full pb-12;
+  @apply prose max-w-full pb-12;
 }
 
 .page-heading {
-  @apply font-semibold text-[#3B4252] dark:text-[#D8DEE9]; /* Nord Polar Night 1 and Snow Storm 0 */
+  @apply font-display text-4xl font-bold;
+  color: var(--foreground);
 }
 
 .blend {
@@ -88,7 +116,7 @@ article {
 .animate {
   opacity: 0;
   transform: translateY(50px);
-  transition: opacity 1s ease, transform 1s ease;
+  transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .animate.show {

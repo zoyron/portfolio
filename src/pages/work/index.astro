@@ -29,31 +29,46 @@ function formatWorkDate(input: Date | string) {
 ---
 <PageLayout title={WORK.TITLE} description={WORK.DESCRIPTION}>
   <TopLayout>
-    <div class="animate page-heading">
-      {WORK.TITLE}
+    <div class="animate page-heading border-b border-card-border pb-8">
+      <h1 class="text-4xl md:text-5xl font-display font-bold text-foreground mb-4">{WORK.TITLE}</h1>
+      <p class="text-subtle text-lg md:text-xl font-display max-w-2xl">{WORK.DESCRIPTION}</p>
     </div>
   </TopLayout>
   <BottomLayout>
-    <ul>
+    <div class="animate relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-card-border before:to-transparent pt-8 pb-12">
+      
       { 
         work.map((entry) => (
-          <li class="animate border-b border-black/10 dark:border-white/25 mt-4 py-8 first-of-type:mt-0 first-of-type:pt-0 last-of-type:border-none">
-            <div class="text-sm uppercase mb-4">
-              {formatWorkDate(entry.data.dateStart)} - {formatWorkDate(entry.data.dateEnd)}
+          <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group is-active mb-12 last:mb-0">
+            <!-- Timeline dot -->
+            <div class="flex items-center justify-center w-10 h-10 rounded-full border-4 border-background bg-card-border group-hover:bg-accent group-hover:shadow-[0_0_15px_rgba(94,234,212,0.5)] transition-all duration-300 absolute left-0 md:left-1/2 -translate-x-1/2 shrink-0 z-10">
+              <div class="w-2.5 h-2.5 rounded-full bg-background"></div>
             </div>
-            <div class="text-black dark:text-white font-semibold">
-              {entry.data.company}
+            
+            <!-- Content Card -->
+            <div class="w-[calc(100%-4rem)] md:w-[calc(50%-3rem)] p-6 md:p-8 bg-card border border-card-border rounded-3xl shadow-sm hover:shadow-md transition-shadow duration-300 relative group-hover:-translate-y-1 transition-transform ease-out">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+                <h3 class="font-display text-2xl font-bold text-foreground group-hover:text-accent transition-colors duration-300">
+                  {entry.data.company}
+                </h3>
+                <time class="text-xs font-mono tracking-wider px-3 py-1 rounded-full bg-background border border-card-border text-subtle shrink-0">
+                  {formatWorkDate(entry.data.dateStart)} — {formatWorkDate(entry.data.dateEnd)}
+                </time>
+              </div>
+              
+              <div class="text-accent font-medium text-lg mb-6">
+                {entry.data.role}
+              </div>
+              
+              <article class="prose text-subtle prose-p:leading-relaxed max-w-none">
+                <entry.Content />
+              </article>
             </div>
-            <div class="text-sm font-semibold">
-              {entry.data.role}
-            </div>
-            <article class="prose dark:prose-invert">
-              <entry.Content />
-            </article>
-          </li>
+          </div>
         ))
       }
-    </ul>
+      
+    </div>
   </BottomLayout>
 </PageLayout>
 
