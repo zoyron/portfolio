@@ -37,13 +37,10 @@ export default function ArrowCard({entry, pill}: Props) {
         </div>
         
         <div class="relative z-10 flex items-end justify-between w-full mt-auto pt-4 border-t border-card-border/50">
-          <ul class="flex flex-wrap gap-2">
-            {entry.data.tags.map((tag: string) => (
-              <li class="text-[10px] uppercase font-medium tracking-wide py-1 px-2 rounded bg-card-border/50 text-foreground/70 group-hover:bg-foreground/10 group-hover:text-foreground transition-colors duration-300">
-                {tag}
-              </li>
-            ))}
-          </ul>
+          <div class="text-[10px] text-subtle/40 font-medium tracking-wider truncate max-w-[calc(100%-36px)] group-hover:text-subtle/60 transition-colors duration-300">
+            {entry.data.tags.slice(0, 3).join(" · ")}
+            {entry.data.tags.length > 3 && <span class="opacity-50"> +{entry.data.tags.length - 3}</span>}
+          </div>
           
           <div class="flex-shrink-0 ml-4 p-2 rounded-full bg-background group-hover:bg-foreground group-hover:text-background text-subtle transition-colors duration-300">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" class="stroke-current stroke-2" stroke-linecap="round" stroke-linejoin="round">

@@ -35,27 +35,19 @@ export default function Blog({ data, tags }: Props) {
     <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
       <div class="md:col-span-1 border-b md:border-b-0 md:border-r border-card-border pb-6 md:pb-0 md:pr-6">
         <div class="sticky top-24">
-          <div class="font-display text-lg font-bold mb-4 text-foreground">Filter</div>
+          <div class="font-display text-sm font-semibold mb-6 text-foreground/60 tracking-wide uppercase">Filter</div>
           <ul class="flex flex-wrap md:flex-col gap-2">
             <For each={tags}>
               {(tag) => (
                 <li>
                   <button onClick={() => toggleTag(tag)} class={cn(
-                    "w-full px-3 py-2 rounded-lg text-sm font-medium tracking-wide",
+                    "text-xs font-medium tracking-wide px-2 py-1 rounded",
                     "whitespace-nowrap overflow-hidden overflow-ellipsis",
-                    "flex gap-3 items-center",
-                    "border transition-all duration-300 ease-in-out",
+                    "transition-all duration-200 ease-in-out",
                     filter().has(tag) 
-                      ? "bg-foreground border-transparent text-background" 
-                      : "bg-card border-card-border/50 text-subtle hover:bg-card-border/30 hover:text-foreground"
+                      ? "text-foreground underline decoration-2 underline-offset-4 decoration-accent" 
+                      : "text-subtle/60 hover:text-subtle hover:bg-card-border/20"
                   )}>
-                    <svg class={cn(
-                      "size-4 transition-colors duration-300 ease-in-out shrink-0", 
-                      filter().has(tag) ? "fill-background" : "fill-subtle/50"
-                    )}>
-                      <use href={`/ui.svg#square`} class={cn(!filter().has(tag) ? "block" : "hidden")} />
-                      <use href={`/ui.svg#square-check`} class={cn(filter().has(tag) ? "block" : "hidden")} />
-                    </svg>
                     {tag}
                   </button>
                 </li>
