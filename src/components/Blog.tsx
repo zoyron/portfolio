@@ -45,7 +45,7 @@ export default function Blog({ data, tags }: Props) {
                     "whitespace-nowrap overflow-hidden overflow-ellipsis",
                     "transition-all duration-200 ease-in-out",
                     filter().has(tag) 
-                      ? "text-foreground bg-card-border/40" 
+                      ? "text-foreground underline decoration-2 underline-offset-4 decoration-accent" 
                       : "text-subtle/60 hover:text-subtle hover:bg-card-border/20"
                   )}>
                     {tag}
