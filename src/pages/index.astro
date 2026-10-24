@@ -1,120 +1,105 @@
 ---
 import { getCollection } from "astro:content";
 import PageLayout from "@layouts/PageLayout.astro";
-import ArrowCard from "@components/ArrowCard";
-import ParticleCanvas from "@components/ParticleCanvas.astro";
-import { SOCIALS } from "@consts";
+import PostRow from "@components/PostRow";
+import FluidCanvas from "@components/FluidCanvas.astro";
+import { SITE } from "@consts";
 
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 4);
-
 ---
 
-<PageLayout title="Home">
-  <ParticleCanvas />
-
+<PageLayout title="Home" description={SITE.DESCRIPTION}>
   <!-- HERO -->
-  <div class="relative min-h-[90vh] flex flex-col justify-center">
-    <div class="mx-auto max-w-screen-lg p-5 w-full">
-      <section class="relative w-full animate">
-        <p class="text-xl md:text-2xl text-subtle font-display mb-4 max-w-2xl leading-relaxed">
-          Creative Engineer & Generative Artist
+  <section id="hero" class="relative overflow-hidden min-h-screen min-h-svh flex items-center pt-20 pb-16">
+    <FluidCanvas />
+    <div class="hero-fade absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+    <!-- Ink dissolves into the page background instead of stopping on a hard edge -->
+    <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background pointer-events-none" aria-hidden="true"></div>
+
+    <div class="relative mx-auto max-w-screen-lg px-5 py-16 w-full">
+      <div class="max-w-2xl">
+        <p class="text-lg md:text-xl text-subtle font-display mb-3">
+          Creative engineer and generative artist
         </p>
         <h1 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-foreground mb-6">
           Sagar Arora
         </h1>
-        <p class="text-lg text-subtle max-w-2xl mb-8 leading-relaxed">
-          I operate as a solo software engineer for founders who need ideas shaped, built, and launched fast. I build everything from <strong class="font-semibold text-foreground">rapid MVPs</strong> to <strong class="font-semibold text-foreground">scalable web products</strong>, alongside crafting premium <strong class="font-semibold text-foreground">landing pages</strong> and interactive WebGL shaders. 
+        <p class="text-lg text-subtle mb-8 leading-relaxed">
+          I operate as a solo software engineer for founders who need ideas shaped, built, and launched fast. I build everything from <strong class="font-semibold text-foreground">rapid MVPs</strong> to <strong class="font-semibold text-foreground">scalable web products</strong>, alongside crafting premium <strong class="font-semibold text-foreground">landing pages</strong> and interactive WebGL shaders.
         </p>
-        <div class="flex flex-wrap items-center gap-4">
-          <a href="https://calendly.com/sgrarora3" target="_blank" class="flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-full font-medium hover:opacity-90 transition-opacity whitespace-nowrap">
-            Book a discovery call
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="7" y1="17" x2="17" y2="7"></line>
-              <polyline points="7 7 17 7 17 17"></polyline>
+        <a href="https://calendly.com/sgrarora3" target="_blank" class="btn btn-primary">
+          Book a discovery call
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="7" y1="17" x2="17" y2="7"></line>
+            <polyline points="7 7 17 7 17 17"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <a href="#writing" class="scroll-cue absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-subtle hover:text-foreground transition-colors duration-200">
+      <span class="font-display text-xs uppercase tracking-widest">Scroll</span>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </a>
+  </section>
+
+  <div class="relative bg-background">
+    <div class="mx-auto max-w-screen-lg px-5 pt-24 pb-24 space-y-24">
+
+      <!-- Selected Writing -->
+      <section id="writing" class="animate space-y-2 scroll-mt-24">
+        <div class="flex justify-between items-end border-b border-card-border pb-4">
+          <h2 class="font-display text-3xl font-bold text-foreground">Selected writing</h2>
+          <a
+            href="/blog"
+            class="group flex gap-2 items-center text-sm font-medium text-subtle hover:text-foreground transition-colors duration-200"
+          >
+            All posts
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
           </a>
         </div>
-      </section>
-    </div>
-  </div>
-
-  <div class="relative bg-background border-t border-card-border overflow-hidden">
-    <div class="mx-auto max-w-screen-lg p-5 space-y-32 pb-24 pt-24">
-      
-
-      <!-- Selected Writing -->
-      <section class="animate">
-        <div class="space-y-8">
-          <div class="flex justify-between items-end border-b border-card-border pb-4">
-            <h2 class="font-display text-3xl font-bold text-foreground m-0">Selected Writing</h2>
-            <a
-              href="/blog"
-              class="group flex gap-2 items-center text-subtle hover:text-foreground transition-colors duration-300 font-medium"
-            >
-              View all
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform duration-300 group-hover:translate-x-1">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </a>
-          </div>
-          <ul class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {
-              posts.map((post) => (
-                <li class="h-full">
-                  <ArrowCard entry={post} />
-                </li>
-              ))
-            }
-          </ul>
-        </div>
+        <ul class="divide-y divide-card-border">
+          {
+            posts.map((post) => (
+              <li>
+                <PostRow entry={post} />
+              </li>
+            ))
+          }
+        </ul>
       </section>
 
-      <!-- Let's Talk Section -->
-      <section class="animate bg-card border border-card-border rounded-3xl p-8 md:p-12 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-64 h-64 bg-accent blur-[100px] opacity-10 rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
-        <div class="relative z-10 flex flex-col md:flex-row gap-8 justify-between items-start md:items-center">
+      <!-- Let's Talk -->
+      <section class="animate border-t border-card-border pt-12">
+        <div class="flex flex-col md:flex-row gap-8 justify-between md:items-center">
           <div class="max-w-md">
-            <h2 class="font-display text-3xl font-bold text-foreground mb-4">
-              Let's Talk
+            <h2 class="font-display text-3xl font-bold text-foreground mb-3">
+              Let's talk
             </h2>
-            <p class="text-subtle mb-0">
+            <p class="text-subtle leading-relaxed">
               I am currently available for new projects. Whether you have an idea in mind or just want to say hi, feel free to reach out.
             </p>
           </div>
-          
-          <div class="flex flex-col gap-4 w-full md:w-auto">
-            <div class="flex flex-col sm:flex-row gap-4">
-              <a href="mailto:sgrarora2@gmail.com" class="bg-foreground text-background hover:opacity-80 px-8 py-3 rounded-full font-medium transition-opacity duration-300 text-center">
-                Send an Email
-              </a>
-              <a href="https://calendly.com/sgrarora3" target="_blank" class="border border-card-border bg-card text-foreground hover:bg-card-border/50 px-8 py-3 rounded-full font-medium transition-colors duration-300 text-center">
-                Book a Call
-              </a>
-            </div>
-            <div class="flex gap-4 justify-center">
-              {
-                SOCIALS.filter(s => s.NAME !== "Email").map((social) => (
-                  <a
-                    href={social.HREF}
-                    target="_blank"
-                    class="size-12 rounded-full border border-card-border flex items-center justify-center text-subtle hover:text-foreground hover:border-foreground transition-colors duration-300"
-                    aria-label={`Visit ${social.NAME}`}
-                  >
-                     <svg class="size-5 fill-current">
-                      <use href={`/social.svg#${social.ICON}`} />
-                    </svg>
-                  </a>
-                ))
-              }
-            </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 shrink-0">
+            <a href="mailto:sgrarora2@gmail.com" class="btn btn-primary">
+              Send an email
+            </a>
+            <a href="https://calendly.com/sgrarora3" target="_blank" class="btn btn-secondary">
+              Book a call
+            </a>
           </div>
         </div>
       </section>
-      
+
     </div>
   </div>
 </PageLayout>
