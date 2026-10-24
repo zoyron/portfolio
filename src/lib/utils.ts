@@ -8,9 +8,17 @@ export function cn(...inputs: ClassValue[]) {
 export function formatDate(date: Date) {
   return Intl.DateTimeFormat("en-US", {
     month: "short",
-    day: "2-digit",
+    day: "numeric",
     year: "numeric"
   }).format(date)
+}
+
+export function formatMonthYear(input: Date | string) {
+  if (typeof input === "string") return input
+  return Intl.DateTimeFormat("en-US", {
+    month: "short",
+    year: "numeric"
+  }).format(input)
 }
 
 export function readingTime(html: string) {

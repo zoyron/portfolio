@@ -1,9 +1,18 @@
-function changeTheme() {
-  const element = document.documentElement
-  const theme = element.classList.contains("dark") ? "light" : "dark"
+const THEME_KEY = "theme"
+const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)")
 
+function storedTheme() {
+  const value = localStorage.getItem(THEME_KEY)
+  return value === "light" || value === "dark" ? value : null
+}
+
+function applyTheme(theme) {
+  document.documentElement.classList.toggle("dark", theme === "dark")
+}
+
+// Swap themes without animating every colour on the page at once
+function applyThemeInstantly(theme) {
   const css = document.createElement("style")
-
   css.appendChild(
     document.createTextNode(
       `* {
@@ -16,52 +25,40 @@ function changeTheme() {
     ),
   )
   document.head.appendChild(css)
-
-  if (theme === "dark") {
-    element.classList.add("dark")
-  } else {
-    element.classList.remove("dark")
-  }
-
+  applyTheme(theme)
   window.getComputedStyle(css).opacity
   document.head.removeChild(css)
-  localStorage.theme = theme
+}
+
+// Only an explicit click is remembered; otherwise the site follows the OS
+function changeTheme() {
+  const theme = document.documentElement.classList.contains("dark") ? "light" : "dark"
+  applyThemeInstantly(theme)
+  localStorage.setItem(THEME_KEY, theme)
 }
 
 function preloadTheme() {
-  const theme = (() => {
-    const userTheme = localStorage.theme
+  applyTheme(storedTheme() ?? (mediaQuery.matches ? "dark" : "light"))
+}
 
-    if (userTheme === "light" || userTheme === "dark") {
-      return userTheme
-    } else {
-      return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+mediaQuery.addEventListener("change", (event) => {
+  if (!storedTheme()) applyThemeInstantly(event.matches ? "dark" : "light")
+})
+
+function initializeThemeButtons() {
+  for (const id of ["header-theme-button", "drawer-theme-button"]) {
+    const button = document.getElementById(id)
+    if (button && !button.dataset.themeBound) {
+      button.dataset.themeBound = "true"
+      button.addEventListener("click", changeTheme)
     }
-  })()
-
-  const element = document.documentElement
-
-  if (theme === "dark") {
-    element.classList.add("dark")
-  } else {
-    element.classList.remove("dark")
   }
-
-  localStorage.theme = theme
 }
 
-window.onload = () => {
-  function initializeThemeButtons() {
-    const headerThemeButton = document.getElementById("header-theme-button")
-    const drawerThemeButton = document.getElementById("drawer-theme-button")
-    headerThemeButton?.addEventListener("click", changeTheme)
-    drawerThemeButton?.addEventListener("click", changeTheme)
-  } 
-  
-  document.addEventListener("astro:after-swap", initializeThemeButtons)
+document.addEventListener("DOMContentLoaded", initializeThemeButtons)
+document.addEventListener("astro:after-swap", () => {
+  preloadTheme()
   initializeThemeButtons()
-}
-
-document.addEventListener("astro:after-swap", preloadTheme)
+})
 
 preloadTheme()
