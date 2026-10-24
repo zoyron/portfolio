@@ -4,56 +4,56 @@ import Container from "@components/Container.astro"
 ---
 
 <footer class="relative bg-background border-t border-card-border mt-auto">
-  <div class="animate">
-    <section class="py-12">
-      <Container size="lg">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4">
-          <div class="flex flex-col items-center md:items-start gap-3 md:gap-2">
-            <div class="flex items-center gap-4 md:gap-2">
-              <a href="/legal/terms" class="text-sm font-medium text-subtle hover:text-foreground transition-colors duration-300">
-                Terms
-              </a>
-              <span class="text-card-border hidden md:inline">•</span>
-              <a href="/legal/privacy" class="text-sm font-medium text-subtle hover:text-foreground transition-colors duration-300">
-                Privacy
-              </a>
-            </div>
-            <div class="text-sm text-subtle/70">
-              &copy; {new Date().getFullYear()} {SITE.TITLE} | All rights reserved
-            </div>
+  <section class="py-12">
+    <Container size="lg">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4">
+        <div class="flex flex-col items-center md:items-start gap-2 text-sm">
+          <div class="flex items-center gap-4">
+            <a href="/legal/terms" class="font-medium text-subtle hover:text-foreground transition-colors duration-200">
+              Terms
+            </a>
+            <a href="/legal/privacy" class="font-medium text-subtle hover:text-foreground transition-colors duration-200">
+              Privacy
+            </a>
+            <a href="/rss.xml" target="_blank" class="font-medium text-subtle hover:text-foreground transition-colors duration-200">
+              RSS
+            </a>
           </div>
-  
-          <div class="flex flex-wrap items-center justify-center gap-4 md:gap-6">
-            <div class="flex gap-2">
-              {
-                SOCIALS.map((SOCIAL) => (
-                  <a 
-                    href={SOCIAL.HREF} 
-                    target="_blank" 
-                    aria-label={`${SITE.TITLE} on ${SOCIAL.NAME}`} 
-                    class="group size-10 flex items-center justify-center rounded-full border border-transparent hover:border-card-border hover:bg-card transition-all duration-300"
-                  >
-                    <svg class="size-5 fill-subtle group-hover:fill-foreground transition-colors duration-300">
-                      <use href={`/social.svg#${SOCIAL.ICON}`} />
-                    </svg>
-                  </a>
-                ))
-              }
-            </div>
-            
-            <div class="hidden md:block w-px h-6 bg-card-border mx-1"></div>
-            
-            <button id="back-to-top" aria-label="Back to top of page" class="group size-10 flex items-center justify-center rounded-full bg-card-border/50 hover:bg-card hover:border-card-border border border-transparent transition-all duration-300 shrink-0">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" class="stroke-current stroke-[2.5] text-foreground transition-colors duration-300 -rotate-90">
-                <line x1="12" y1="19" x2="12" y2="5" class="translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-in-out" />
-                <polyline points="5 12 12 5 19 12" class="translate-y-2 group-hover:translate-y-0 transition-all duration-300 ease-in-out" />
-              </svg>
-            </button>
+          <div class="text-subtle/70">
+            &copy; {new Date().getFullYear()} {SITE.AUTHOR}
           </div>
         </div>
-      </Container>
-    </section>
-  </div>
+
+        <div class="flex items-center gap-4 md:gap-6">
+          <div class="flex gap-1">
+            {
+              SOCIALS.map((SOCIAL) => (
+                <a
+                  href={SOCIAL.HREF}
+                  target="_blank"
+                  aria-label={`${SITE.AUTHOR} on ${SOCIAL.NAME}`}
+                  class="group size-10 flex items-center justify-center rounded-full border border-transparent hover:border-card-border hover:bg-card transition-colors duration-200"
+                >
+                  <svg class="size-5 fill-subtle group-hover:fill-foreground transition-colors duration-200">
+                    <use href={`/social.svg#${SOCIAL.ICON}`} />
+                  </svg>
+                </a>
+              ))
+            }
+          </div>
+
+          <div class="w-px h-6 bg-card-border"></div>
+
+          <button id="back-to-top" aria-label="Back to top of page" class="icon-btn group">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="size-full stroke-current stroke-2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="19" x2="12" y2="5" class="transition-transform duration-200 ease-out group-hover:-translate-y-0.5" />
+              <polyline points="5 12 12 5 19 12" class="transition-transform duration-200 ease-out group-hover:-translate-y-0.5" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </Container>
+  </section>
 </footer>
 
 <script is:inline>
@@ -65,11 +65,11 @@ import Container from "@components/Container.astro"
     })
   }
 
-  function inintializeBackToTop() {
+  function initializeBackToTop() {
     const backToTop = document.getElementById("back-to-top")
     backToTop?.addEventListener("click", goBackToTop)
   }
 
-  document.addEventListener("astro:after-swap", inintializeBackToTop)
-  inintializeBackToTop()
+  document.addEventListener("astro:after-swap", initializeBackToTop)
+  initializeBackToTop()
 </script>
