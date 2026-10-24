@@ -26,15 +26,15 @@ function mix(a: Rgb, b: Rgb, t: number): Rgb {
 
 /**
  * Reads the ink colours from the site's design tokens on <html>.
- * Light: a pale accent-glow wash deepening to the accent, like watercolour on paper.
- * Dark: the accent glowing on polar night, its densest core warming toward frost.
+ * Light: a pale wash of the accent deepening to the full accent, like sepia ink on paper.
+ * Dark: the accent glowing in the dark, its densest core warming toward the cream foreground.
  */
 export function readPalette(root: HTMLElement): FluidPalette {
   const style = getComputedStyle(root)
   const accent = token(style, "--accent")
 
   if (root.classList.contains("dark")) {
-    return { low: accent, high: mix(accent, token(style, "--foreground"), 0.5), maxAlpha: 0.55 }
+    return { low: accent, high: mix(accent, token(style, "--foreground"), 0.2), maxAlpha: 0.7 }
   }
-  return { low: token(style, "--accent-glow"), high: accent, maxAlpha: 0.42 }
+  return { low: mix(accent, token(style, "--background"), 0.45), high: accent, maxAlpha: 0.62 }
 }

@@ -21,27 +21,29 @@
 }
 
 :root {
-  /* Light palette: warm Nord greys with a teal accent */
-  --background: #F8F9FB;
-  --foreground: #3B4252;
-  --accent: #0D9488;
-  --accent-glow: #14B8A6;
-  --card-bg: #FFFFFF;
-  --card-border: rgba(76, 86, 106, 0.15);
-  --subtle: rgba(59, 66, 82, 0.75);
-  --muted: #4C566A;
+  /* Light palette: warm paper and brown ink with a terracotta accent */
+  --background: #F4ECD8;
+  --foreground: #2B2117;
+  --accent: #9C5A34;
+  --accent-glow: #6F3D20;
+  --card-bg: #FAF3E0;
+  --card-border: #D9CBB0;
+  --subtle: #5C4D3C;
+  --muted: #5C4D3C;
+  --code-bg: #2B2117;
 }
 
 html.dark {
-  /* Dark palette: Nord polar night with a lighter teal accent */
-  --background: #2E3440;
-  --foreground: #D8DEE9;
-  --accent: #5EEAD4;
-  --accent-glow: #2DD4BF;
-  --card-bg: #3B4252;
-  --card-border: rgba(216, 222, 233, 0.15);
-  --subtle: rgba(216, 222, 233, 0.75);
-  --muted: #B8C0CF;
+  /* Dark palette: lamplit paper, cream ink and a soft apricot accent */
+  --background: #211A13;
+  --foreground: #EEE3CF;
+  --accent: #E0A374;
+  --accent-glow: #F0C19B;
+  --card-bg: #2A2117;
+  --card-border: #43382A;
+  --subtle: #C2B299;
+  --muted: #C2B299;
+  --code-bg: #2A2117;
 }
 
 html {
@@ -106,6 +108,11 @@ article img {
 
 article pre {
   @apply rounded-xl;
+}
+
+/* Keep the syntax colours of the highlighter but sit the block on warm ink instead of its cool grey */
+article pre.astro-code {
+  background-color: var(--code-bg) !important;
 }
 
 .page-heading {

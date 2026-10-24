@@ -57,34 +57,34 @@ const FLOW = {
   advect: 0.2,
 }
 
-/** Ink fade per tick: ~1.9 s half-life plus a linear floor, so strokes linger 3-5 s then vanish */
-const FADE = { decay: 0.994, fade: 0.00025 }
+/** Ink fade per tick: ~3.3 s half-life plus a linear floor, so strokes linger 5-7 s then vanish */
+const FADE = { decay: 0.9965, fade: 0.0002 }
 
 /** The pointer's brush */
 const STROKE = {
-  /** Brush radius in cells (~25 px) */
-  radius: 5.5,
+  /** Brush radius in cells (~32 px) */
+  radius: 7,
   /** Force per cell of pointer travel per tick */
   force: 4,
   maxForce: 30,
   /** Ink per tick at full pace; slower strokes leave less (pace^1.5) */
-  ink: 0.6,
+  ink: 0.85,
   /** Pointer travel per tick, in cells, that counts as full pace */
   fullPace: 8,
   /** Ink of a dab, the drop left where a touch lands */
-  dab: 0.3,
+  dab: 0.45,
 }
 
 /**
  * The ambient current: a hidden stirrer idling along a Lissajous path. On an irregular
- * rhythm it glides at a gentle stroke pace with ~15 % of a stroke's force, leaving a faint
+ * rhythm it glides at a gentle stroke pace with ~20 % of a stroke's force, leaving a clear
  * wisp that curls and fades like a real one; between glides it barely moves.
  */
 const CURRENT = {
-  radius: 6.5,
+  radius: 8.5,
   /** Force and ink per tick at the peak of a glide */
-  force: 0.7,
-  ink: 0.012,
+  force: 0.9,
+  ink: 0.035,
   /** Path phase per second at the peak of a glide (~1.2 cells per tick), and the idle share of it */
   pace: 0.6,
   idle: 0.12,
@@ -93,7 +93,7 @@ const CURRENT = {
 }
 
 /** Coverage = 1 - exp(-ink * gain) */
-const INK_GAIN = 1.5
+const INK_GAIN = 2
 /** Seconds to cross-fade the ink colours on a theme switch */
 const PALETTE_FADE = 0.5
 
