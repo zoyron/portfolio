@@ -25,12 +25,6 @@ export const PROJECTS: Page = {
   DESCRIPTION: "Recent projects I have worked on.",
 }
 
-// Search Page
-export const SEARCH: Page = {
-  TITLE: "Search",
-  DESCRIPTION: "Search all posts and projects by keyword.",
-}
-
 // Links
 export const LINKS: Links = [
   { 
