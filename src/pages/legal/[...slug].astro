@@ -25,12 +25,12 @@ const { Content } = await doc.render();
 ---
 
 <PageLayout title={title} description={`${title} for ${SITE.TITLE}`}>
-  <TopLayout size="article">
+  <TopLayout>
     <div class="animate">
       <PageHeading title={title} description={`Last updated ${formatDate(date)}`} />
     </div>
   </TopLayout>
-  <BottomLayout size="article">
+  <BottomLayout>
     <article class="animate pt-4">
       <Content/>
     </article>

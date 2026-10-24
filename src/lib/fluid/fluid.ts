@@ -402,8 +402,8 @@ export class FluidSim {
   /** The hidden stirrer's path, by phase: slow, smooth and kept to the open side of the hero on wide screens */
   private currentAt(phase: number, out: Vector2) {
     const wide = this.grid.x >= this.grid.y
-    const cx = wide ? 0.7 : 0.5
-    const ex = wide ? 0.2 : 0.3
+    const cx = wide ? 0.78 : 0.5
+    const ex = wide ? 0.17 : 0.3
     const cy = wide ? 0.52 : 0.45
     const ey = wide ? 0.3 : 0.28
     const u = cx + ex * (0.62 * Math.sin(phase + 0.4) + 0.38 * Math.sin(2.3 * phase + 2.1))

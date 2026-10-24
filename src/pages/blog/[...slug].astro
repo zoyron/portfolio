@@ -22,12 +22,12 @@ const { title, summary } = post.data
 ---
 
 <PageLayout title={title} description={summary}>
-  <TopLayout size="article">
+  <TopLayout>
     <div class="animate">
       <ArticleTopLayout entry={post}/>
     </div>
   </TopLayout>
-  <BottomLayout size="article">
+  <BottomLayout>
     <div class="animate">
       <ArticleBottomLayout entry={post} />
     </div>

@@ -2,10 +2,10 @@
 import Container from "@components/Container.astro"
 
 type Props = {
-  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "article"
+  size?: "sm" | "md" | "lg" | "xl" | "2xl" | "content"
 }
 
-const { size = "lg" } = Astro.props
+const { size = "content" } = Astro.props
 ---
 
 <div class="flex-1 py-5">

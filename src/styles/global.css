@@ -168,7 +168,7 @@ article pre.astro-code {
 
 /* Soft radial fade behind the hero text so ink never sits on the headline */
 .hero-fade {
-  background: radial-gradient(ellipse 60% 70% at 24% 52%, var(--background) 15%, transparent 100%);
+  background: radial-gradient(ellipse 50% 70% at 50% 52%, var(--background) 15%, transparent 100%);
   opacity: 0.95;
 }
 

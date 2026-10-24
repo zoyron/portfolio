@@ -2,7 +2,7 @@
 import { cn } from "@lib/utils"
 
 type Props = {
-  size: "sm" | "md" | "lg" | "xl" | "2xl" | "article"
+  size: "sm" | "md" | "lg" | "xl" | "2xl" | "content"
 }
 
 const { size } = Astro.props;
@@ -15,7 +15,8 @@ const { size } = Astro.props;
   size === "lg" && "max-w-screen-lg",
   size === "xl" && "max-w-screen-xl",
   size === "2xl" && "max-w-screen-2xl",
-  size === "article" && "max-w-[46rem]",
+  // The reading column every page's content sits in, inset within the lg frame of the header and footer
+  size === "content" && "max-w-[46rem]",
 )}>
   <slot/>
 </div>
