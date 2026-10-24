@@ -1,45 +1,40 @@
 ---
-import { LINKS } from "@consts";
+import { LINKS, SITE } from "@consts";
 import { cn } from "@lib/utils";
 const { pathname } = Astro.url;
 const subpath = pathname.match(/[^/]+/g);
 import Container from "@components/Container.astro";
+
+const isActive = (href: string) => pathname === href || "/" + subpath?.[0] === href
 ---
 
 <header id="header" class="fixed top-0 w-full h-20 z-50">
   <Container size="lg">
     <div class="flex items-center justify-between h-full w-full">
-      <div class="flex gap-3">
-        <button
-          id="header-theme-button"
-          aria-label={`Toggle light and dark theme`}
-          class={cn(
-            "size-10 rounded-full p-2.5 items-center justify-center",
-            "bg-card/60 backdrop-blur-md border border-card-border/50 text-subtle hover:text-foreground hover:border-foreground shadow-sm",
-            "transition-all duration-300 ease-in-out hover:-translate-y-0.5",
-          )}
-        >
-          <svg class="size-full block dark:hidden stroke-current fill-none">
-            <use href="/ui.svg#sun"></use>
-          </svg>
-          <svg class="size-full hidden dark:block stroke-current fill-none">
-            <use href="/ui.svg#moon"></use>
-          </svg>
-        </button>
-      </div>
+      <a
+        href="/"
+        aria-label={`${SITE.AUTHOR}, home`}
+        class="font-display text-lg font-bold tracking-tight text-foreground hover:text-accent transition-colors duration-200"
+      >
+        {SITE.AUTHOR}
+      </a>
 
-      <div class="flex items-center gap-3">
-        <nav class="hidden md:flex items-center justify-center text-sm gap-2 p-1.5 rounded-full bg-card/60 backdrop-blur-md border border-card-border/50 shadow-sm">
+      <div class="flex items-center gap-2">
+        <nav
+          aria-label="Primary"
+          class="hidden md:flex items-center justify-center text-sm gap-1 p-1 rounded-full bg-card/70 backdrop-blur-md border border-card-border"
+        >
           {
             LINKS.map((LINK) => (
               <a
                 href={LINK.HREF}
+                aria-current={isActive(LINK.HREF) ? "page" : undefined}
                 class={cn(
-                  "h-8 rounded-full px-5 font-medium tracking-wide",
+                  "h-8 rounded-full px-4 font-medium",
                   "flex items-center justify-center",
-                  "transition-all duration-300 ease-in-out",
-                  pathname === LINK.HREF || "/" + subpath?.[0] === LINK.HREF
-                    ? "bg-foreground text-background shadow-md"
+                  "transition-colors duration-200 ease-out",
+                  isActive(LINK.HREF)
+                    ? "bg-foreground text-background"
                     : "text-subtle hover:bg-card-border/50 hover:text-foreground",
                 )}
               >
@@ -50,14 +45,24 @@ import Container from "@components/Container.astro";
         </nav>
 
         <button
+          id="header-theme-button"
+          aria-label="Toggle light and dark theme"
+          class="icon-btn"
+        >
+          <svg class="size-full block dark:hidden stroke-current fill-none">
+            <use href="/ui.svg#sun"></use>
+          </svg>
+          <svg class="size-full hidden dark:block stroke-current fill-none">
+            <use href="/ui.svg#moon"></use>
+          </svg>
+        </button>
+
+        <button
           id="header-drawer-button"
-          aria-label={`Toggle drawer open and closed`}
-          class={cn(
-            "flex md:hidden",
-            "size-10 rounded-full p-2.5 items-center justify-center",
-            "bg-card/60 backdrop-blur-md border border-card-border/50 text-subtle hover:text-foreground hover:border-foreground shadow-sm",
-            "transition-all duration-300 ease-in-out",
-          )}
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="drawer"
+          class="icon-btn md:hidden"
         >
           <svg id="drawer-open" class="size-full stroke-current fill-none">
             <use href="/ui.svg#menu"></use>
@@ -90,18 +95,31 @@ import Container from "@components/Container.astro";
 </style>
 
 <script is:inline>
-  function toggleDrawer() {
+  function setDrawer(open) {
     const drawer = document.getElementById("drawer");
     const drawerButton = document.getElementById("header-drawer-button");
-    drawer?.classList.toggle("open");
-    drawerButton?.classList.toggle("open");
+    drawer?.classList.toggle("open", open);
+    drawerButton?.classList.toggle("open", open);
+    drawerButton?.setAttribute("aria-expanded", String(open));
+    drawerButton?.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    document.body.classList.toggle("overflow-hidden", open);
   }
 
   function initializeDrawerButton() {
     const drawerButton = document.getElementById("header-drawer-button");
-    drawerButton?.addEventListener("click", toggleDrawer);
+    if (!drawerButton || drawerButton.dataset.bound) return;
+    drawerButton.dataset.bound = "true";
+    drawerButton.addEventListener("click", () => {
+      setDrawer(!drawerButton.classList.contains("open"));
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setDrawer(false);
+    });
   }
 
-  document.addEventListener("astro:after-swap", initializeDrawerButton);
+  document.addEventListener("astro:after-swap", () => {
+    document.body.classList.remove("overflow-hidden");
+    initializeDrawerButton();
+  });
   initializeDrawerButton();
 </script>

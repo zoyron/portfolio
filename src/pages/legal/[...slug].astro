@@ -3,6 +3,7 @@ import { type CollectionEntry, getCollection } from "astro:content"
 import PageLayout from "@layouts/PageLayout.astro"
 import TopLayout from "@layouts/TopLayout.astro"
 import BottomLayout from "@layouts/BottomLayout.astro"
+import PageHeading from "@components/PageHeading.astro"
 import { formatDate } from "@lib/utils"
 import { SITE } from "@consts"
 
@@ -26,16 +27,11 @@ const { Content } = await doc.render();
 <PageLayout title={title} description={`${title} for ${SITE.TITLE}`}>
   <TopLayout>
     <div class="animate">
-      <div class="page-heading">
-        {title}
-      </div>
-      <p class="font-normal opacity-75">
-        Last updated: {formatDate(date)}
-      </p>
+      <PageHeading title={title} description={`Last updated ${formatDate(date)}`} />
     </div>
   </TopLayout>
   <BottomLayout>
-    <article class="animate">
+    <article class="animate pt-4">
       <Content/>
     </article>
   </BottomLayout>

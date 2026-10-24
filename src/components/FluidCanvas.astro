@@ -1,0 +1,165 @@
+---
+---
+<canvas id="hero-canvas" class="absolute inset-0 w-full h-full pointer-events-none opacity-0 transition-opacity duration-1000 ease-out" aria-hidden="true"></canvas>
+
+<script>
+  import { FluidSim } from "@lib/fluid/fluid"
+  import { readPalette } from "@lib/fluid/palette"
+
+  /** Ticks run before the first frame, so the pool opens with a faint wash rather than empty */
+  const PRIME_TICKS = 120
+  /** A pointer that pauses longer than this, or jumps further, starts a fresh stroke */
+  const MAX_GAP_MS = 100
+  const MAX_JUMP_PX = 160
+
+  function initCanvas() {
+    const canvas = document.getElementById("hero-canvas") as HTMLCanvasElement | null
+    if (!canvas) return
+
+    // Astro can run this twice on first load; one simulation per canvas
+    if (canvas.getAttribute("data-initialized")) return
+    canvas.setAttribute("data-initialized", "true")
+
+    const host = canvas.parentElement ?? document.body
+    const root = document.documentElement
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const touch = window.matchMedia("(pointer: coarse)").matches
+
+    let sim: FluidSim
+    try {
+      sim = new FluidSim(canvas, host, { touch })
+    } catch {
+      // No WebGL2 or no half-float targets: the hero simply stays a calm, plain page
+      return
+    }
+
+    let dark = root.classList.contains("dark")
+    sim.setPalette(readPalette(root), true)
+    sim.prime(PRIME_TICKS)
+    sim.render()
+    canvas.classList.remove("opacity-0")
+
+    // Animation loop: time only advances while frames render, so pausing never causes a jump
+    let lastFrame = performance.now()
+    let animationFrameId = 0
+    let running = false
+    let heroVisible = true
+
+    const animate = () => {
+      if (!running) return
+      animationFrameId = requestAnimationFrame(animate)
+      const now = performance.now()
+      const dt = Math.min((now - lastFrame) / 1000, 0.1)
+      lastFrame = now
+      if (sim.step(dt)) sim.render()
+    }
+
+    const updateRunning = () => {
+      const shouldRun = heroVisible && document.visibilityState === "visible" && !reduceMotion
+      if (shouldRun && !running) {
+        running = true
+        lastFrame = performance.now()
+        animate()
+      } else if (!shouldRun && running) {
+        running = false
+        cancelAnimationFrame(animationFrameId)
+      }
+    }
+
+    // Pointer: every pointer type stirs, hovering included; nothing is prevented, so touch scrolling is untouched
+    const pointers = new Map<number, { x: number; y: number; t: number }>()
+
+    const trackPointer = (e: PointerEvent) => {
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, t: e.timeStamp })
+    }
+
+    // A finger or pen landing on the hero leaves a drop of ink; a mouse only stirs by moving
+    const onPointerDown = (e: PointerEvent) => {
+      trackPointer(e)
+      if (!running || e.pointerType === "mouse") return
+      const rect = host.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      if (x >= 0 && y >= 0 && x <= rect.width && y <= rect.height) sim.dab(x, y)
+    }
+
+    const onPointerMove = (e: PointerEvent) => {
+      const last = pointers.get(e.pointerId)
+      trackPointer(e)
+      if (!running || !last) return
+      // Movement is measured on screen, so scrolling the page under a resting pointer never draws a streak
+      const dx = e.clientX - last.x
+      const dy = e.clientY - last.y
+      if (e.timeStamp - last.t > MAX_GAP_MS || Math.hypot(dx, dy) > MAX_JUMP_PX) return
+      const rect = host.getBoundingClientRect()
+      sim.pointer(e.clientX - rect.left, e.clientY - rect.top, dx, dy)
+    }
+
+    const onPointerEnd = (e: PointerEvent) => {
+      pointers.delete(e.pointerId)
+    }
+
+    // Resize Handling: redraw at once, since resizing the canvas clears it
+    const onResize = () => {
+      if (sim.resize()) sim.render()
+    }
+    window.addEventListener("resize", onResize)
+    // The hero's height follows the viewport and its content, so track the host itself too
+    const hostResize = new ResizeObserver(onResize)
+    hostResize.observe(host)
+
+    // Theme Mutation Observer: re-read the tokens and cross-fade the ink
+    const observer = new MutationObserver(() => {
+      const isDark = root.classList.contains("dark")
+      if (isDark === dark) return
+      dark = isDark
+      sim.setPalette(readPalette(root), !running)
+      if (!running) sim.render()
+    })
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] })
+
+    const visibility = new IntersectionObserver((entries) => {
+      heroVisible = entries.some((entry) => entry.isIntersecting)
+      updateRunning()
+    }, { threshold: 0 })
+
+    const onVisibilityChange = () => updateRunning()
+
+    // Reduced motion keeps the single still frame drawn above: no loop, no stirring
+    if (!reduceMotion) {
+      window.addEventListener("pointerdown", onPointerDown, { passive: true })
+      window.addEventListener("pointermove", onPointerMove, { passive: true })
+      window.addEventListener("pointerup", onPointerEnd, { passive: true })
+      window.addEventListener("pointercancel", onPointerEnd, { passive: true })
+      visibility.observe(host)
+      document.addEventListener("visibilitychange", onVisibilityChange)
+      updateRunning()
+    }
+
+    // Cleanup for Astro view transitions
+    document.addEventListener("astro:before-swap", () => {
+      running = false
+      cancelAnimationFrame(animationFrameId)
+      window.removeEventListener("resize", onResize)
+      hostResize.disconnect()
+      window.removeEventListener("pointerdown", onPointerDown)
+      window.removeEventListener("pointermove", onPointerMove)
+      window.removeEventListener("pointerup", onPointerEnd)
+      window.removeEventListener("pointercancel", onPointerEnd)
+      document.removeEventListener("visibilitychange", onVisibilityChange)
+      visibility.disconnect()
+      observer.disconnect()
+      sim.dispose()
+    }, { once: true })
+  }
+
+  // Initialize on load and on view transitions swap
+  document.addEventListener("astro:page-load", initCanvas)
+
+  // Also call it immediately for the first load if it's already ready
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    initCanvas()
+  } else {
+    document.addEventListener("DOMContentLoaded", initCanvas)
+  }
+</script>

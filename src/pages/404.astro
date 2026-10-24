@@ -1,0 +1,109 @@
+---
+import "@fontsource-variable/space-grotesk";
+import "@styles/global.css";
+import BaseHead from "@components/BaseHead.astro";
+import { SITE } from "@consts";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Page not found | ${SITE.TITLE}`} description="That page does not exist." />
+  </head>
+  <body>
+    <main class="not-found">
+      <!-- The number is the artwork: set at viewport scale and anchored to the right edge of the content column -->
+      <p class="not-found-number font-display" aria-hidden="true">404</p>
+
+      <div class="not-found-text">
+        <h1 class="font-display text-2xl md:text-3xl font-medium tracking-tight text-foreground">
+          That page does not exist.
+        </h1>
+        <p class="mt-3 max-w-md text-subtle leading-relaxed">
+          The link may be old, or the address may have a typo. Everything that is here can be reached from the home page.
+        </p>
+        <a href="/" class="not-found-link">
+          Go to the home page
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </main>
+  </body>
+</html>
+
+<style>
+  .not-found {
+    /* Same left edge as every other page: the lg container with its 1.25rem gutter */
+    --gutter: max(1.25rem, calc((100vw - 64rem) / 2));
+    /* With the tracking below, "404" is about 1.7em wide, so this size lets the whole number
+       span the content column between the gutters; on short screens the height caps it instead. */
+    --number-size: min(calc((100vw - 2 * var(--gutter)) / 1.72), 60vh);
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow-x: clip;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 4rem 0 5rem;
+  }
+
+  .not-found-number {
+    align-self: flex-end;
+    margin: 0 var(--gutter) 0 0;
+    /* Negative tracking also trims the box after the last digit; keep its ink inside the column */
+    padding-right: 0.04em;
+    font-size: var(--number-size);
+    font-weight: 300;
+    line-height: 0.8;
+    letter-spacing: -0.04em;
+    white-space: nowrap;
+    color: var(--foreground);
+    user-select: none;
+    animation: settle 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes settle {
+    from {
+      opacity: 0;
+      transform: translateX(-0.03em);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .not-found-text {
+    padding: 2.5rem var(--gutter) 0;
+  }
+
+  @media (min-width: 768px) {
+    .not-found-text {
+      padding-top: 3.5rem;
+    }
+  }
+
+  .not-found-link {
+    @apply inline-flex items-center gap-2 mt-8 font-medium text-foreground;
+    @apply transition-colors duration-200;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.35em;
+  }
+
+  .not-found-link:hover {
+    color: var(--accent);
+  }
+
+  .not-found-link svg {
+    @apply transition-transform duration-200;
+  }
+
+  .not-found-link:hover svg {
+    transform: translateX(2px);
+  }
+</style>

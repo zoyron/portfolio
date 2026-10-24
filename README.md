@@ -1,6 +1,6 @@
 # Sagar's Homepage
 
-[https://www.sarlloc.xyz/](https://www.sarlloc.xyz/)
+[https://www.sarlloc.com/](https://www.sarlloc.com/)
 
 
 ## Project structure
@@ -32,18 +32,16 @@
 │   └── ui.svg
 ├── src
 │   ├── components
-│   │   ├── ArrowCard.tsx
 │   │   ├── BaseHead.astro
-│   │   ├── Blog.tsx
 │   │   ├── Container.astro
 │   │   ├── Counter.tsx
 │   │   ├── Drawer.astro
+│   │   ├── FluidCanvas.astro
 │   │   ├── Footer.astro
 │   │   ├── Header.astro
 │   │   ├── MeteorShower.astro
-│   │   ├── Projects.tsx
-│   │   ├── Search.tsx
-│   │   ├── StackCard.astro
+│   │   ├── PageHeading.astro
+│   │   ├── PostRow.tsx
 │   │   └── TwinklingStars.astro
 │   ├── consts.ts
 │   ├── content
@@ -85,6 +83,15 @@
 │   │   ├── PageLayout.astro
 │   │   └── TopLayout.astro
 │   ├── lib
+│   │   ├── fluid
+│   │   │   ├── display.frag
+│   │   │   ├── dye.frag
+│   │   │   ├── fluid.ts
+│   │   │   ├── palette.ts
+│   │   │   ├── quad.vert
+│   │   │   ├── resample.frag
+│   │   │   ├── splat.glsl
+│   │   │   └── velocity.frag
 │   │   └── utils.ts
 │   ├── pages
 │   │   ├── blog
@@ -98,7 +105,6 @@
 │   │   │   └── index.astro
 │   │   ├── robots.txt.ts
 │   │   ├── rss.xml.ts
-│   │   ├── search
 │   │   │   └── index.astro
 │   │   └── work
 │   │       └── index.astro
