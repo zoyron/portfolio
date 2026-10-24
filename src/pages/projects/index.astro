@@ -1,17 +1,56 @@
 ---
-// Import necessary components and utilities
+import { getCollection } from "astro:content"
 import PageLayout from "@layouts/PageLayout.astro"
+import TopLayout from "@layouts/TopLayout.astro"
+import BottomLayout from "@layouts/BottomLayout.astro"
+import PageHeading from "@components/PageHeading.astro"
+import PostRow from "@components/PostRow"
+import { PROJECTS, SOCIALS } from "@consts"
 
+// Entries without a body are placeholders, not projects
+const projects = (await getCollection("projects"))
+  .filter((project) => !project.data.draft && project.body.trim().length > 0)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+
+const github = SOCIALS.find((social) => social.ICON === "github")
 ---
 
-<PageLayout title="404 - Not Found" description="Page not found">
-  <div class="min-h-screen flex flex-col justify-center items-center text-center p-4">
-    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-gray-100">404</h1>
-    <p class="mt-4 text-lg md:text-xl lg:text-2xl text-gray-600 dark:text-gray-400">
-      Oops! The page you are looking for does not exist.
-    </p>
-    <a href="/" class="mt-8 inline-block px-8 py-3 text-sm font-medium bg-gray-800 text-white dark:bg-gray-200 dark:text-gray-900 rounded-md hover:bg-gray-700 dark:hover:bg-gray-300">
-      Go back home
-    </a>
-  </div>
+<PageLayout title={PROJECTS.TITLE} description={PROJECTS.DESCRIPTION}>
+  <TopLayout>
+    <div class="animate">
+      <PageHeading title={PROJECTS.TITLE} description={PROJECTS.DESCRIPTION} />
+    </div>
+  </TopLayout>
+  <BottomLayout>
+    <div class="animate pb-12">
+      {projects.length > 0 ? (
+        <ul class="divide-y divide-card-border">
+          {projects.map((project) => (
+            <li>
+              <PostRow entry={project} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="pt-4 max-w-2xl">
+          <p class="font-display text-xl font-bold text-foreground mb-2">
+            Project write-ups are on the way.
+          </p>
+          <p class="text-subtle leading-relaxed mb-6">
+            Until then, the code lives on GitHub and the generative work is written up on the blog.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            {github && (
+              <a href={github.HREF} target="_blank" class="btn btn-primary">
+                Browse GitHub
+              </a>
+            )}
+            <a href="/blog" class="btn btn-secondary">
+              Read the blog
+            </a>
+          </div>
+        </div>
+      )}
+    </div>
+  </BottomLayout>
 </PageLayout>
