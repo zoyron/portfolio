@@ -7,7 +7,6 @@
 
 ```
 ./
-├── CNAME
 ├── LICENSE
 ├── README.md
 ├── astro.config.mjs
