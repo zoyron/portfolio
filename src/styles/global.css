@@ -95,7 +95,8 @@ header:not(.scrolled) {
 header.scrolled {
   background-color: color-mix(in srgb, var(--background) 80%, transparent);
   border-bottom-color: var(--card-border);
-  @apply backdrop-blur-md saturate-150;
+  /* Frost only what scrolls behind the bar; a plain filter would tint the bar itself */
+  @apply backdrop-blur-md backdrop-saturate-150;
 }
 
 article {
