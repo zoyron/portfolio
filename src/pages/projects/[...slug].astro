@@ -5,6 +5,7 @@ import TopLayout from "@layouts/TopLayout.astro"
 import BottomLayout from "@layouts/BottomLayout.astro"
 import ArticleTopLayout from "@layouts/ArticleTopLayout.astro"
 import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro"
+import { ogImageFor } from "@lib/og"
 
 // Create the static projects pages
 export async function getStaticPaths() {
@@ -18,10 +19,10 @@ export async function getStaticPaths() {
 // Get the requested project
 type Props = CollectionEntry<"projects">
 const project = Astro.props
-const { title, summary } = project.data
+const { title, summary, date } = project.data
 ---
 
-<PageLayout title={title} description={summary}>
+<PageLayout title={title} description={summary} image={ogImageFor(project)} publishedTime={date}>
   <TopLayout>
     <div class="animate">
       <ArticleTopLayout entry={project} />

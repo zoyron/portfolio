@@ -1,15 +1,29 @@
 ---
 import { ViewTransitions } from "astro:transitions"
+import { SITE } from "@consts"
+import {
+  DEFAULT_OG_IMAGE,
+  OG_IMAGE_HEIGHT,
+  OG_IMAGE_TYPE,
+  OG_IMAGE_WIDTH,
+  type OgImage,
+} from "@lib/og"
 
 interface Props {
   title: string
   description: string
-  image?: string
+  // The social preview image; pages without their own share the site image
+  image?: OgImage
+  // Set on posts, which makes the page an article for link previews
+  publishedTime?: Date
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
 
-const { title, description, image = "/open-graph.jpg" } = Astro.props
+const { title, description, image = DEFAULT_OG_IMAGE, publishedTime } = Astro.props
+
+// Link previews need an absolute address on the live site
+const imageURL = new URL(image.src, Astro.site)
 ---
 
 <!-- Global Metadata -->
@@ -30,18 +44,25 @@ const { title, description, image = "/open-graph.jpg" } = Astro.props
 <meta name="description" content={description} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={publishedTime ? "article" : "website"} />
+<meta property="og:site_name" content={SITE.TITLE} />
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image, Astro.url)} />
+<meta property="og:image" content={imageURL} />
+<meta property="og:image:type" content={OG_IMAGE_TYPE} />
+<meta property="og:image:width" content={String(OG_IMAGE_WIDTH)} />
+<meta property="og:image:height" content={String(OG_IMAGE_HEIGHT)} />
+<meta property="og:image:alt" content={image.alt} />
+{publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
 
 <!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={Astro.url} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.url)} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={Astro.url} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />
+<meta name="twitter:image:alt" content={image.alt} />
 
 <!-- Sitemap -->
 <link rel="sitemap" href="/sitemap-index.xml" />
