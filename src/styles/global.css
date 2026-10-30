@@ -187,6 +187,11 @@ html.dark .hero-fade {
   animation: scrollCue 2.4s ease-in-out infinite;
 }
 
+/* In an unattended window (FluidCanvas marks it) the bob alone would keep the compositor drawing; it carries on from where it held */
+[data-unattended] .scroll-cue svg {
+  animation-play-state: paused;
+}
+
 /** Light theme particles on home page */
 @keyframes animateParticle {
   from {

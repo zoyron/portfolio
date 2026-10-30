@@ -67,6 +67,9 @@
     }
 
     const updateRunning = () => {
+      // The scroll cue holds with the fluid. Never reached without WebGL2 or under reduced motion, so
+      // it can't stick there; set on the hero, not <html>, so a view transition takes it away too
+      host.toggleAttribute("data-unattended", !attended)
       const shouldRun = heroVisible && attended && document.visibilityState === "visible" && !reduceMotion
       if (shouldRun && !running) {
         running = true
