@@ -11,6 +11,11 @@
   /** A pointer that pauses longer than this, or jumps further, starts a fresh stroke */
   const MAX_GAP_MS = 100
   const MAX_JUMP_PX = 160
+  /**
+   * An unattended window flows on this long before holding still, so focus that bounces
+   * straight back (Cmd-Tab and back, a click into the address bar or DevTools) never stutters
+   */
+  const IDLE_GRACE_MS = 1000
 
   function initCanvas() {
     const canvas = document.getElementById("hero-canvas") as HTMLCanvasElement | null
@@ -45,6 +50,13 @@
     let running = false
     let heroVisible = true
 
+    // Attention: a window on screen that nobody is using (no focus, no mouse or pen over it) holds still.
+    // Touch screens start attended, since a webview may misreport focus and has no hover to wake it.
+    let focused = touch || document.hasFocus()
+    let hovered = false
+    let attended = focused
+    let idleTimer = 0
+
     const animate = () => {
       if (!running) return
       animationFrameId = requestAnimationFrame(animate)
@@ -55,7 +67,7 @@
     }
 
     const updateRunning = () => {
-      const shouldRun = heroVisible && document.visibilityState === "visible" && !reduceMotion
+      const shouldRun = heroVisible && attended && document.visibilityState === "visible" && !reduceMotion
       if (shouldRun && !running) {
         running = true
         lastFrame = performance.now()
@@ -66,6 +78,33 @@
       }
     }
 
+    // Waking is instant; holding still waits out the grace period
+    const updateAttention = () => {
+      window.clearTimeout(idleTimer)
+      if (focused || hovered) {
+        attended = true
+        updateRunning()
+      } else if (attended) {
+        idleTimer = window.setTimeout(() => {
+          attended = false
+          updateRunning()
+          // A theme cross-fade cut short by the pause would otherwise hold its halfway colours
+          sim.setPalette(readPalette(root), true)
+          sim.render()
+        }, IDLE_GRACE_MS)
+      }
+    }
+
+    const onFocus = () => {
+      focused = true
+      updateAttention()
+    }
+
+    const onBlur = () => {
+      focused = false
+      updateAttention()
+    }
+
     // Pointer: every pointer type stirs, hovering included; nothing is prevented, so touch scrolling is untouched
     const pointers = new Map<number, { x: number; y: number; t: number }>()
 
@@ -73,9 +112,26 @@
       pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, t: e.timeStamp })
     }
 
+    // A mouse or pen over the page is attention, so an unfocused window wakes under it and stirs as usual.
+    // Touch is left out: a finger leaves the page after every lift.
+    const onPointerOver = (e: PointerEvent) => {
+      if (hovered || e.pointerType === "touch") return
+      hovered = true
+      updateAttention()
+    }
+
+    // No relatedTarget: the pointer left the window, or a pen lifted out of range
+    const onPointerOut = (e: PointerEvent) => {
+      if (!hovered || e.relatedTarget || e.pointerType === "touch") return
+      hovered = false
+      updateAttention()
+    }
+
     // A finger or pen landing on the hero leaves a drop of ink; a mouse only stirs by moving
     const onPointerDown = (e: PointerEvent) => {
       trackPointer(e)
+      // A tap is attention, even where focus is misreported
+      if (e.pointerType === "touch" && !focused) onFocus()
       if (!running || e.pointerType === "mouse") return
       const rect = host.getBoundingClientRect()
       const x = e.clientX - rect.left
@@ -84,6 +140,9 @@
     }
 
     const onPointerMove = (e: PointerEvent) => {
+      // Moving is hovering too, as in a window opened under a resting pointer; noted first,
+      // so the move that wakes the loop gets past the check below
+      onPointerOver(e)
       const last = pointers.get(e.pointerId)
       trackPointer(e)
       if (!running || !last) return
@@ -131,6 +190,10 @@
       window.addEventListener("pointermove", onPointerMove, { passive: true })
       window.addEventListener("pointerup", onPointerEnd, { passive: true })
       window.addEventListener("pointercancel", onPointerEnd, { passive: true })
+      window.addEventListener("pointerover", onPointerOver, { passive: true })
+      window.addEventListener("pointerout", onPointerOut, { passive: true })
+      window.addEventListener("focus", onFocus)
+      window.addEventListener("blur", onBlur)
       visibility.observe(host)
       document.addEventListener("visibilitychange", onVisibilityChange)
       updateRunning()
@@ -140,12 +203,17 @@
     document.addEventListener("astro:before-swap", () => {
       running = false
       cancelAnimationFrame(animationFrameId)
+      window.clearTimeout(idleTimer)
       window.removeEventListener("resize", onResize)
       hostResize.disconnect()
       window.removeEventListener("pointerdown", onPointerDown)
       window.removeEventListener("pointermove", onPointerMove)
       window.removeEventListener("pointerup", onPointerEnd)
       window.removeEventListener("pointercancel", onPointerEnd)
+      window.removeEventListener("pointerover", onPointerOver)
+      window.removeEventListener("pointerout", onPointerOut)
+      window.removeEventListener("focus", onFocus)
+      window.removeEventListener("blur", onBlur)
       document.removeEventListener("visibilitychange", onVisibilityChange)
       visibility.disconnect()
       observer.disconnect()
