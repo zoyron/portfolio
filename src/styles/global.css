@@ -197,14 +197,17 @@ html.dark .hero-fade {
   }
 }
 
-/** Scroll-triggered reveal, driven by public/js/animate.js */
-.animate {
+/**
+ * Scroll-triggered reveal, driven by public/js/animate.js. Sections start hidden only under
+ * html.reveal, which that script sets while it runs, so without it they are simply shown.
+ */
+html.reveal .animate {
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.animate.show {
+html.reveal .animate.show {
   opacity: 1;
   transform: translateY(0);
 }
@@ -219,7 +222,7 @@ html.dark .hero-fade {
     scroll-behavior: auto !important;
   }
 
-  .animate {
+  html.reveal .animate {
     opacity: 1;
     transform: none;
   }
