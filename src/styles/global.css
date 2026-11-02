@@ -177,6 +177,13 @@ html.dark .hero-fade {
   opacity: 0.6;
 }
 
+/* In portrait the ambient ink drifts through the centre, under the fade, not off to the open side */
+@media (max-aspect-ratio: 1/1) {
+  .hero-fade {
+    opacity: 0.6;
+  }
+}
+
 /* Hero scroll cue: the chevron bobs slowly; the reduced-motion block below stills it */
 @keyframes scrollCue {
   0%, 100% { transform: translateY(0); }
