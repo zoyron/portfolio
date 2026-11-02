@@ -12,6 +12,7 @@ const posts = (await getCollection("blog"))
 
 // Contact links come from the one list in consts, so an address changes in one place
 const email = SOCIALS.find((social) => social.ICON === "email");
+const twitter = SOCIALS.find((social) => social.ICON === "twitter-x");
 ---
 
 <PageLayout title="Home" description={SITE.DESCRIPTION}>
@@ -98,16 +99,16 @@ const email = SOCIALS.find((social) => social.ICON === "email");
               Let's talk
             </h2>
             <p class="text-subtle leading-relaxed">
-              I am currently available for new projects. Whether you have an idea in mind or just want to say hi, feel free to reach out.
+              If something I wrote helped, or you're working on something similar, I'd like to hear about it.
             </p>
           </div>
 
           <div class="flex flex-col sm:flex-row gap-3 shrink-0">
-            <a href="mailto:sgrarora3@gmail.com" class="btn btn-primary">
+            <a href={email?.HREF} class="btn btn-primary">
               Send an email
             </a>
-            <a href="https://calendly.com/sgrarora3" target="_blank" class="btn btn-secondary">
-              Book a call
+            <a href={twitter?.HREF} target="_blank" rel="noopener" class="btn btn-secondary">
+              Message me on X
             </a>
           </div>
         </div>
