@@ -95,7 +95,8 @@ header:not(.scrolled) {
 header.scrolled {
   background-color: color-mix(in srgb, var(--background) 80%, transparent);
   border-bottom-color: var(--card-border);
-  @apply backdrop-blur-md saturate-150;
+  /* Frost only what scrolls behind the bar; a plain filter would tint the bar itself */
+  @apply backdrop-blur-md backdrop-saturate-150;
 }
 
 article {
@@ -176,6 +177,13 @@ html.dark .hero-fade {
   opacity: 0.6;
 }
 
+/* In portrait the ambient ink drifts through the centre, under the fade, not off to the open side */
+@media (max-aspect-ratio: 1/1) {
+  .hero-fade {
+    opacity: 0.6;
+  }
+}
+
 /* Hero scroll cue: the chevron bobs slowly; the reduced-motion block below stills it */
 @keyframes scrollCue {
   0%, 100% { transform: translateY(0); }
@@ -184,6 +192,11 @@ html.dark .hero-fade {
 
 .scroll-cue svg {
   animation: scrollCue 2.4s ease-in-out infinite;
+}
+
+/* In an unattended window (FluidCanvas marks it) the bob alone would keep the compositor drawing; it carries on from where it held */
+[data-unattended] .scroll-cue svg {
+  animation-play-state: paused;
 }
 
 /** Light theme particles on home page */
@@ -196,14 +209,17 @@ html.dark .hero-fade {
   }
 }
 
-/** Scroll-triggered reveal, driven by public/js/animate.js */
-.animate {
+/**
+ * Scroll-triggered reveal, driven by public/js/animate.js. Sections start hidden only under
+ * html.reveal, which that script sets while it runs, so without it they are simply shown.
+ */
+html.reveal .animate {
   opacity: 0;
   transform: translateY(16px);
   transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.animate.show {
+html.reveal .animate.show {
   opacity: 1;
   transform: translateY(0);
 }
@@ -218,7 +234,7 @@ html.dark .hero-fade {
     scroll-behavior: auto !important;
   }
 
-  .animate {
+  html.reveal .animate {
     opacity: 1;
     transform: none;
   }

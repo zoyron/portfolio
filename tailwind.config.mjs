@@ -25,6 +25,7 @@ export default {
           css: {
             maxWidth: "full",
             color: "var(--foreground)",
+            "--tw-prose-bullets": "var(--subtle)",
             a: {
               color: "var(--accent)",
               '&:hover': {

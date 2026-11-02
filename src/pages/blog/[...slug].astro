@@ -5,6 +5,7 @@ import TopLayout from "@layouts/TopLayout.astro"
 import BottomLayout from "@layouts/BottomLayout.astro"
 import ArticleTopLayout from "@layouts/ArticleTopLayout.astro"
 import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro"
+import { ogImageFor } from "@lib/og"
 
 // Create the static blog pages
 export async function getStaticPaths() {
@@ -18,10 +19,10 @@ export async function getStaticPaths() {
 // Get the requested post
 type Props = CollectionEntry<"blog">
 const post = Astro.props
-const { title, summary } = post.data
+const { title, summary, date } = post.data
 ---
 
-<PageLayout title={title} description={summary}>
+<PageLayout title={title} description={summary} image={ogImageFor(post)} publishedTime={date}>
   <TopLayout>
     <div class="animate">
       <ArticleTopLayout entry={post}/>
