@@ -3,12 +3,15 @@ import { getCollection } from "astro:content";
 import PageLayout from "@layouts/PageLayout.astro";
 import PostRow from "@components/PostRow";
 import FluidCanvas from "@components/FluidCanvas.astro";
-import { SITE } from "@consts";
+import { SITE, SOCIALS } from "@consts";
 
 const posts = (await getCollection("blog"))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 4);
+
+// Contact links come from the one list in consts, so an address changes in one place
+const email = SOCIALS.find((social) => social.ICON === "email");
 ---
 
 <PageLayout title="Home" description={SITE.DESCRIPTION}>
@@ -30,13 +33,23 @@ const posts = (await getCollection("blog"))
         <p class="text-lg text-subtle mb-8 leading-relaxed">
           I build AI products end to end, from <strong class="font-semibold text-foreground">LLM agents</strong> and <strong class="font-semibold text-foreground">hybrid retrieval</strong> to <strong class="font-semibold text-foreground">speech pipelines</strong> and the multi-tenant platforms they run on. Outside of work, I write <strong class="font-semibold text-foreground">WebGL shaders</strong> and make generative art.
         </p>
-        <a href="https://calendly.com/sgrarora3" target="_blank" class="btn btn-primary">
-          Book a discovery call
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <line x1="7" y1="17" x2="17" y2="7"></line>
-            <polyline points="7 7 17 7 17 17"></polyline>
-          </svg>
-        </a>
+        <div class="flex flex-wrap items-center gap-x-7 gap-y-1">
+          <a href="https://sketches.sarlloc.com/" target="_blank" rel="noopener" class="btn btn-primary">
+            View generative art
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </a>
+          <!-- The quieter way in: a plain link, so the art stays the one clear call to action; the padding keeps a full-size tap target -->
+          <a href={email?.HREF} class="inline-flex items-center gap-1.5 py-3 text-sm font-medium text-foreground underline-offset-4 decoration-1 hover:underline hover:text-accent transition-colors duration-200">
+            Get in touch
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
       </div>
     </div>
 
